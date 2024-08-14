@@ -32,6 +32,13 @@
             50% { opacity: 0; }
         }
 
+        /* تأثير التكبير */
+        @keyframes enlarge {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.5); }
+            100% { transform: scale(1); }
+        }
+
         /* تخصيص مواقع الحقول */
         .field-1 {
             top: 59%;
@@ -127,7 +134,10 @@
                 if (currentNumber >= targetNumber) {
                     currentNumber = targetNumber;
                     clearInterval(interval);
-                    document.getElementById(fieldId).parentElement.style.animation = ''; // إيقاف الوميض عند الوصول للرقم النهائي
+                    // إيقاف الوميض وتكبير الرقم عند الوصول للرقم النهائي
+                    const element = document.getElementById(fieldId);
+                    element.parentElement.style.animation = ''; // إيقاف الوميض
+                    element.style.animation = 'enlarge 0.5s ease-in-out'; // تكبير الرقم
                 }
                 document.getElementById(fieldId).textContent = currentNumber;
             }, 50); // التحديث كل 50 مللي ثانية لسرعة العرض
