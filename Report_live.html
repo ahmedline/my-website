@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page with Image and Number Fields</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url('https://a7medline.neocities.org/Artboard1.jpg'); /* مسار الصورة */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* تثبيت الخلفية */
+            position: relative;
+        }
+
+        .number-field {
+            color: #3b1f05;
+            font-size: 53px;
+            padding: 15px;
+            position: absolute;
+            background: none; /* إزالة الخلفية */
+            animation: blink 1s infinite; /* إضافة وميض */
+        }
+
+        /* تأثير الوميض */
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* تخصيص مواقع الحقول */
+        .field-1 {
+            top: 59%;
+            left: 10%;
+        }
+
+        .field-2 {
+            top: 59%;
+            left: 27.5%;
+        }
+
+        .field-3 {
+            top: 59%;
+            left: 45.5%;
+        }
+
+        .field-4 {
+            top: 59%;
+            left: 62.5%;
+        }
+
+        .field-5 {
+            top: 59%;
+            left: 83%;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Number fields section -->
+    <div class="number-field field-1">
+        <span>000</span>
+    </div>
+    <div class="number-field field-2">
+        <span>000</span>
+    </div>
+    <div class="number-field field-3">
+        <span>000</span>
+    </div>
+    <div class="number-field field-4">
+        <span>000</span>
+    </div>
+    <div class="number-field field-5">
+        <span>24</span>
+    </div>
+
+</body>
+</html>
