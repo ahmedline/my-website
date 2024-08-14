@@ -58,7 +58,21 @@
             top: 59%;
             left: 83%;
         }
+
+        /* تنسيق الوقت */
+        .time-field {
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            color: #ffffff;
+            font-weight: bold;
+        }
     </style>
+
+    <!-- رفرش آلي كل 5 دقائق -->
+    <meta http-equiv="refresh" content="300">
 </head>
 <body>
 
@@ -78,6 +92,26 @@
     <div class="number-field field-5">
         <span>24</span>
     </div>
+
+    <!-- Time display section -->
+    <div class="time-field" id="current-time">
+        <!-- سيتم تحديث الوقت هنا -->
+    </div>
+
+    <script>
+        // دالة لتحديث الوقت الحالي
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            document.getElementById('current-time').textContent = timeString;
+        }
+
+        // تحديث الوقت كل ثانية
+        setInterval(updateTime, 1000);
+
+        // عرض الوقت عند تحميل الصفحة لأول مرة
+        updateTime();
+    </script>
 
 </body>
 </html>
