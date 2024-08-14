@@ -23,8 +23,7 @@
             font-size: 60px;
             padding: 15px;
             position: absolute;
-            background: rgba(255, 255, 255, 0.5); /* خلفية بيضاء شفافة */
-            border-radius: 50%; /* لجعل الخلفية دائرية */
+            background: none; /* إزالة الخلفية */
             animation: blink 1s infinite; /* إضافة وميض */
         }
 
@@ -73,7 +72,7 @@
     </style>
 
     <!-- رفرش آلي كل 10 ثواني -->
-    <meta http-equiv="refresh" content="60">
+    <meta http-equiv="refresh" content="10">
 </head>
 <body>
 
@@ -133,12 +132,20 @@
             }, 1000);
         }
 
-        // إعداد أرقام الحقول
-        animateNumber('field-1', 1000, 600); // العدد المستهدف، المدة الزمنية بالثواني
-        animateNumber('field-2', 1200, 600);
-        animateNumber('field-3', 1500, 600);
-        animateNumber('field-4', 2000, 600);
-        animateNumber('field-5', 26, 2);  // تكرار العدد كل 10 دقائق (600 ثانية)
+        // إعداد الأرقام المستهدفة
+        const targets = {
+            'field-1': 500,  // العدد المستهدف للحقل 1
+            'field-2': 1200,  // العدد المستهدف للحقل 2
+            'field-3': 3000,  // العدد المستهدف للحقل 3
+            'field-4': 4500,  // العدد المستهدف للحقل 4
+            'field-5': 26    // العدد المستهدف للحقل 5
+        };
+
+        // بدأ العدادات
+        for (const [fieldId, target] of Object.entries(targets)) {
+            animateNumber(fieldId, target, 10);  // يتم العد في 10 ثواني
+        }
+
     </script>
 
 </body>
