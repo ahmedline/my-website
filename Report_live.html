@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page with Image and Number Fields</title>
+    <title>EIF live Report 2024</title>
     <style>
         body {
             margin: 0;
@@ -20,8 +20,8 @@
 
         .number-field {
             color: #3b1f05;
-            font-size: 8vw; /* استخدام وحدة vw لزيادة قابلية التكيف */
-            padding: 15px;
+            font-size: 8vw; /* استخدم وحدة vw لجعل النص متجاوباً */
+            padding: 10px;
             position: absolute;
             background: none; /* إزالة الخلفية */
             animation: blink 1s infinite; /* إضافة وميض */
@@ -59,10 +59,10 @@
             left: 73%;
         }
 
-        /* تحسين التصميم لشاشات أصغر باستخدام media queries */
+        /* تحسين التصميم لشاشات iPhone */
         @media (max-width: 768px) {
             .number-field {
-                font-size: 12vw; /* تكبير حجم الخط للشاشات الأصغر */
+                font-size: 10vw; /* تكبير النص قليلاً للشاشات الصغيرة */
             }
             
             .field-1 { left: 5%; }
@@ -74,14 +74,14 @@
 
         @media (max-width: 480px) {
             .number-field {
-                font-size: 15vw; /* تكبير حجم الخط بشكل أكبر للشاشات الصغيرة */
+                font-size: 12vw; /* تكبير النص بشكل أكبر للشاشات الصغيرة */
             }
             
             .field-1 { left: 5%; }
             .field-2 { left: 30%; }
             .field-3 { left: 55%; }
             .field-4 { left: 80%; }
-            .field-5 { top: 70%; left: 50%; transform: translateX(-50%); } /* محاذاة الحقل الأخير في الوسط */
+            .field-5 { top: 65%; left: 50%; transform: translateX(-50%); } /* محاذاة الحقل الأخير في الوسط */
         }
     </style>
 </head>
