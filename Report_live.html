@@ -23,19 +23,13 @@
             font-size: 60px;
             padding: 15px;
             position: absolute;
+            animation: blink 0.5s infinite; /* وميض سريع عند البدء */
         }
 
         /* تأثير الوميض */
         @keyframes blink {
             0%, 100% { opacity: 1; }
             50% { opacity: 0; }
-        }
-
-        /* تأثير التكبير */
-        @keyframes enlarge {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.5); }
-            100% { transform: scale(1); }
         }
 
         /* تخصيص مواقع الحقول */
@@ -133,7 +127,7 @@
                 if (currentNumber >= targetNumber) {
                     currentNumber = targetNumber;
                     clearInterval(interval);
-                    document.getElementById(fieldId).parentElement.style.animation = 'blink 1s infinite'; // إضافة وميض شديد عند الوصول للرقم الحالي
+                    document.getElementById(fieldId).parentElement.style.animation = ''; // إيقاف الوميض عند الوصول للرقم النهائي
                 }
                 document.getElementById(fieldId).textContent = currentNumber;
             }, 50); // التحديث كل 50 مللي ثانية لسرعة العرض
@@ -148,14 +142,15 @@
             'field-5': 26    // العدد المستهدف للحقل 5
         };
 
-        // بدأ العدادات مع تأخير بين كل حقل وآخر
+        // بدأ العدادات مع تأخير بين كل حقل وآخر (عكس الترتيب)
         let delay = 0;
-        for (const [fieldId, target] of Object.entries(targets)) {
+        const fields = Object.keys(targets).reverse(); // عكس ترتيب الحقول
+        fields.forEach((fieldId, index) => {
             setTimeout(() => {
-                animateNumber(fieldId, target, 2000);  // يتم العد في ثانيتين (2000 مللي ثانية)
+                animateNumber(fieldId, targets[fieldId], 2000);  // يتم العد في ثانيتين (2000 مللي ثانية)
             }, delay);
             delay += 4000; // تأخير 4 ثواني بين كل حقل والحقل التالي
-        }
+        });
 
     </script>
 
