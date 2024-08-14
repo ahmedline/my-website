@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EIF live Report 2024 </title>
+    <title>EIF live Report 2024</title>
     <style>
         body {
             margin: 0;
@@ -23,14 +23,15 @@
             font-size: 60px;
             padding: 15px;
             position: absolute;
-            background: none; /* إزالة الخلفية */
+            background: rgba(255, 255, 255, 0.5); /* خلفية بيضاء شفافة */
+            border-radius: 50%; /* لجعل الخلفية دائرية */
             animation: blink 1s infinite; /* إضافة وميض */
         }
 
         /* تأثير الوميض */
         @keyframes blink {
             0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
+            50% { opacity: 0.5; }
         }
 
         /* تخصيص مواقع الحقول */
@@ -71,40 +72,41 @@
         }
     </style>
 
-    <!-- رفرش آلي كل 5 دقائق -->
+    <!-- رفرش آلي كل 10 ثواني -->
     <meta http-equiv="refresh" content="10">
 </head>
 <body>
 
     <!-- عدد إناث-->
     <div class="number-field field-1">
-        <span>0000</span>
-        <!-- عدد الذكور-->
+        <span id="field-1">0000</span>
     </div>
+
+    <!-- عدد الذكور-->
     <div class="number-field field-2">
-        <span>0000</span>
-
-
-        <!-- عدد المقابلات-->
+        <span id="field-2">0000</span>
     </div>
+
+    <!-- عدد المقابلات-->
     <div class="number-field field-3">
-        <span>0000</span>
+        <span id="field-3">0000</span>
     </div>
 
     <!-- عدد الزوار-->
     <div class="number-field field-4">
-        <span>0000</span>
+        <span id="field-4">0000</span>
     </div>
 
     <!-- عدد المؤسسات-->
     <div class="number-field field-5">
-        <span>&nbsp;26</span>
+        <span id="field-5">26</span>
     </div>
 
     <!-- Time display section -->
     <div class="time-field" id="current-time">
         <!-- سيتم تحديث الوقت هنا -->
     </div>
+
     <script>
         // دالة لتحديث الوقت الحالي
         function updateTime() {
@@ -116,6 +118,27 @@
         setInterval(updateTime, 1000);
         // عرض الوقت عند تحميل الصفحة لأول مرة
         updateTime();
+
+        // دالة لتحديث الرقم بشكل متحرك
+        function animateNumber(fieldId, targetNumber, duration) {
+            let currentNumber = 0;
+            const increment = targetNumber / (duration / 1000);
+            const interval = setInterval(() => {
+                currentNumber += increment;
+                if (currentNumber >= targetNumber) {
+                    currentNumber = targetNumber;
+                    clearInterval(interval);
+                }
+                document.getElementById(fieldId).textContent = Math.floor(currentNumber);
+            }, 1000);
+        }
+
+        // إعداد أرقام الحقول
+        animateNumber('field-1', 1000, 600); // العدد المستهدف، المدة الزمنية بالثواني
+        animateNumber('field-2', 1200, 600);
+        animateNumber('field-3', 1500, 600);
+        animateNumber('field-4', 2000, 600);
+        animateNumber('field-5', 26, 600);  // تكرار العدد كل 10 دقائق (600 ثانية)
     </script>
 
 </body>
