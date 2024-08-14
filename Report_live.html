@@ -23,14 +23,20 @@
             font-size: 60px;
             padding: 15px;
             position: absolute;
-            background: none; /* إزالة الخلفية */
-            animation: blink 1s infinite; /* إضافة وميض */
+            animation: enlarge 0.5s ease-in-out forwards, blink 1s infinite 0.5s; /* تكبير الرقم ثم إضافة الوميض */
         }
 
         /* تأثير الوميض */
         @keyframes blink {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.5; }
+        }
+
+        /* تأثير التكبير */
+        @keyframes enlarge {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.5); }
+            100% { transform: scale(1); }
         }
 
         /* تخصيص مواقع الحقول */
@@ -76,27 +82,27 @@
 </head>
 <body>
 
-    <!-- عدد إناث-->
+    <!-- عدد إناث -->
     <div class="number-field field-1">
         <span id="field-1">0000</span>
     </div>
 
-    <!-- عدد الذكور-->
+    <!-- عدد الذكور -->
     <div class="number-field field-2">
         <span id="field-2">0000</span>
     </div>
 
-    <!-- عدد المقابلات-->
+    <!-- عدد المقابلات -->
     <div class="number-field field-3">
         <span id="field-3">0000</span>
     </div>
 
-    <!-- عدد الزوار-->
+    <!-- عدد الزوار -->
     <div class="number-field field-4">
         <span id="field-4">0000</span>
     </div>
 
-    <!-- عدد المؤسسات-->
+    <!-- عدد المؤسسات -->
     <div class="number-field field-5">
         <span id="field-5">26</span>
     </div>
@@ -118,32 +124,33 @@
         // عرض الوقت عند تحميل الصفحة لأول مرة
         updateTime();
 
-        // دالة لتحديث الرقم بشكل متحرك
+        // دالة لتحديث الرقم بشكل متحرك من 1 إلى الرقم المستهدف
         function animateNumber(fieldId, targetNumber, duration) {
             let currentNumber = 0;
-            const increment = targetNumber / (duration / 1000);
+            const increment = Math.ceil(targetNumber / (duration / 10)); // زيادة الرقم بسرعة
+
             const interval = setInterval(() => {
                 currentNumber += increment;
                 if (currentNumber >= targetNumber) {
                     currentNumber = targetNumber;
                     clearInterval(interval);
                 }
-                document.getElementById(fieldId).textContent = Math.floor(currentNumber);
-            }, 1000);
+                document.getElementById(fieldId).textContent = currentNumber;
+            }, 20); // التحديث كل 10 مللي ثانية لسرعة العرض
         }
 
         // إعداد الأرقام المستهدفة
         const targets = {
-            'field-1': 500,  // العدد المستهدف للحقل 1
-            'field-2': 1200,  // العدد المستهدف للحقل 2
-            'field-3': 3000,  // العدد المستهدف للحقل 3
-            'field-4': 4500,  // العدد المستهدف للحقل 4
+            'field-1': 100,  // العدد المستهدف للحقل 1
+            'field-2': 200,  // العدد المستهدف للحقل 2
+            'field-3': 300,  // العدد المستهدف للحقل 3
+            'field-4': 400,  // العدد المستهدف للحقل 4
             'field-5': 26    // العدد المستهدف للحقل 5
         };
 
         // بدأ العدادات
         for (const [fieldId, target] of Object.entries(targets)) {
-            animateNumber(fieldId, target, 10);  // يتم العد في 10 ثواني
+            animateNumber(fieldId, target, 1000);  // يتم العد في ثانية واحدة (1000 مللي ثانية)
         }
 
     </script>
