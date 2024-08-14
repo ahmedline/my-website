@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EIF live Report 2024 </title>
+    <title>Page with Image and Number Fields</title>
     <style>
         body {
             margin: 0;
@@ -20,7 +20,7 @@
 
         .number-field {
             color: #3b1f05;
-            font-size: 53px;
+            font-size: 8vw; /* استخدام وحدة vw لزيادة قابلية التكيف */
             padding: 15px;
             position: absolute;
             background: none; /* إزالة الخلفية */
@@ -35,28 +35,53 @@
 
         /* تخصيص مواقع الحقول */
         .field-1 {
-            top: 59%;
-            left: 10%;
+            top: 50%;
+            left: 5%;
         }
 
         .field-2 {
-            top: 59%;
-            left: 27.5%;
+            top: 50%;
+            left: 22%;
         }
 
         .field-3 {
-            top: 59%;
-            left: 45.5%;
+            top: 50%;
+            left: 39%;
         }
 
         .field-4 {
-            top: 59%;
-            left: 62.5%;
+            top: 50%;
+            left: 56%;
         }
 
         .field-5 {
-            top: 59%;
-            left: 83%;
+            top: 50%;
+            left: 73%;
+        }
+
+        /* تحسين التصميم لشاشات أصغر باستخدام media queries */
+        @media (max-width: 768px) {
+            .number-field {
+                font-size: 12vw; /* تكبير حجم الخط للشاشات الأصغر */
+            }
+            
+            .field-1 { left: 5%; }
+            .field-2 { left: 25%; }
+            .field-3 { left: 45%; }
+            .field-4 { left: 65%; }
+            .field-5 { left: 85%; }
+        }
+
+        @media (max-width: 480px) {
+            .number-field {
+                font-size: 15vw; /* تكبير حجم الخط بشكل أكبر للشاشات الصغيرة */
+            }
+            
+            .field-1 { left: 5%; }
+            .field-2 { left: 30%; }
+            .field-3 { left: 55%; }
+            .field-4 { left: 80%; }
+            .field-5 { top: 70%; left: 50%; transform: translateX(-50%); } /* محاذاة الحقل الأخير في الوسط */
         }
     </style>
 </head>
