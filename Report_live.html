@@ -76,28 +76,35 @@
 </head>
 <body>
 
-    <!-- Number fields section -->
+    <!-- عدد إناث-->
     <div class="number-field field-1">
         <span>50</span>
+        <!-- عدد الذكور-->
     </div>
     <div class="number-field field-2">
-        <span>50</span>
+        <span>0000</span>
+
+
+        <!-- عدد المقابلات-->
     </div>
     <div class="number-field field-3">
-        <span>1000</span>
+        <span>0000</span>
     </div>
+
+    <!-- عدد الزوار-->
     <div class="number-field field-4">
-        <span>5700</span>
+        <span>0000</span>
     </div>
+
+    <!-- عدد المؤسسات-->
     <div class="number-field field-5">
-        <span>26</span>
+        <span>0026</span>
     </div>
 
     <!-- Time display section -->
     <div class="time-field" id="current-time">
         <!-- سيتم تحديث الوقت هنا -->
     </div>
-
     <script>
         // دالة لتحديث الوقت الحالي
         function updateTime() {
@@ -105,10 +112,8 @@
             const timeString = now.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
             document.getElementById('current-time').textContent = timeString;
         }
-
         // تحديث الوقت كل ثانية
         setInterval(updateTime, 1000);
-
         // عرض الوقت عند تحميل الصفحة لأول مرة
         updateTime();
     </script>
