@@ -23,13 +23,6 @@
             font-size: 60px;
             padding: 15px;
             position: absolute;
-            animation: blink 0.5s infinite; /* وميض سريع عند البدء */
-        }
-
-        /* تأثير الوميض */
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
         }
 
         /* تأثير التكبير */
@@ -134,9 +127,8 @@
                 if (currentNumber >= targetNumber) {
                     currentNumber = targetNumber;
                     clearInterval(interval);
-                    // إيقاف الوميض وتكبير الرقم عند الوصول للرقم النهائي
+                    // تكبير الرقم عند الوصول للرقم النهائي
                     const element = document.getElementById(fieldId);
-                    element.parentElement.style.animation = ''; // إيقاف الوميض
                     element.style.animation = 'enlarge 0.5s ease-in-out'; // تكبير الرقم
                 }
                 document.getElementById(fieldId).textContent = currentNumber;
@@ -159,7 +151,7 @@
             setTimeout(() => {
                 animateNumber(fieldId, targets[fieldId], 2000);  // يتم العد في ثانيتين (2000 مللي ثانية)
             }, delay);
-            delay += 4000; // تأخير 4 ثواني بين كل حقل والحقل التالي
+            delay += 5000; // تأخير 4 ثواني بين كل حقل والحقل التالي
         });
 
     </script>
