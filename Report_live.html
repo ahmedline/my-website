@@ -23,13 +23,12 @@
             font-size: 60px;
             padding: 15px;
             position: absolute;
-            animation: enlarge 0.5s ease-in-out forwards, blink 1s infinite 0.5s; /* تكبير الرقم ثم إضافة الوميض */
         }
 
         /* تأثير الوميض */
         @keyframes blink {
             0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+            50% { opacity: 0; }
         }
 
         /* تأثير التكبير */
@@ -77,7 +76,7 @@
         }
     </style>
 
-    <!-- رفرش آلي كل 10 ثواني -->
+    <!-- رفرش آلي كل 60 ثانية -->
     <meta http-equiv="refresh" content="60">
 </head>
 <body>
@@ -134,9 +133,10 @@
                 if (currentNumber >= targetNumber) {
                     currentNumber = targetNumber;
                     clearInterval(interval);
+                    document.getElementById(fieldId).parentElement.style.animation = 'blink 1s infinite'; // إضافة وميض شديد عند الوصول للرقم الحالي
                 }
                 document.getElementById(fieldId).textContent = currentNumber;
-            }, 90); // التحديث كل 10 مللي ثانية لسرعة العرض
+            }, 50); // التحديث كل 50 مللي ثانية لسرعة العرض
         }
 
         // إعداد الأرقام المستهدفة
@@ -148,9 +148,13 @@
             'field-5': 26    // العدد المستهدف للحقل 5
         };
 
-        // بدأ العدادات
+        // بدأ العدادات مع تأخير بين كل حقل وآخر
+        let delay = 0;
         for (const [fieldId, target] of Object.entries(targets)) {
-            animateNumber(fieldId, target, 1000);  // يتم العد في ثانية واحدة (1000 مللي ثانية)
+            setTimeout(() => {
+                animateNumber(fieldId, target, 2000);  // يتم العد في ثانيتين (2000 مللي ثانية)
+            }, delay);
+            delay += 4000; // تأخير 4 ثواني بين كل حقل والحقل التالي
         }
 
     </script>
