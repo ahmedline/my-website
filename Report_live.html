@@ -11,11 +11,10 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background-image: url('https://a7medline.neocities.org/Artboard1.jpg'); /* مسار الصورة */
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed; /* تثبيت الخلفية */
+            background: #f0f0f0 url('https://a7medline.neocities.org/Artboard1.jpg') center center / cover no-repeat fixed;
             position: relative;
+            will-change: background-image;
+            transition: background-image 1s ease-in-out;
         }
 
         .number-field {
@@ -24,25 +23,20 @@
             padding: 15px;
             position: absolute;
             text-align: center;
-            animation: simple-blink 2s infinite ease-in-out; /* وميض بسيط */
+            animation: simple-blink 2s infinite ease-in-out;
         }
 
-        /* تأثير الوميض البسيط */
         @keyframes simple-blink {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.7; }
         }
 
-        /* تأثير التكبير */
         @keyframes enlarge {
             0% { transform: scale(1); }
             50% { transform: scale(1.5); }
             100% { transform: scale(1); }
         }
 
-      
-
-        /* تخصيص مواقع الحقول */
         .field-1 {
             top: 59%;
             left: 9.5%;
@@ -68,7 +62,6 @@
             left: 81.5%;
         }
 
-        /* تنسيق الوقت */
         .time-field {
             position: absolute;
             top: 15%;
@@ -78,93 +71,112 @@
             color: #181616a2;
             font-weight: bold;
         }
+
+        /* Loader style */
+        #loader {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
     </style>
 
-    <!-- رفرش آلي كل 60 ثانية -->
+    <!-- Preload the background image -->
+    <link rel="preload" href="https://a7medline.neocities.org/Artboard1.jpg" as="image">
+
+    <!-- Auto-refresh every 60 seconds -->
     <meta http-equiv="refresh" content="60">
 </head>
 <body>
 
-    <!-- عدد إناث -->
+    <!-- Loader before image loads -->
+    <div id="loader">
+        Loading...
+    </div>
+
+    <!-- Female Count -->
     <div class="number-field field-1">
         <span id="field-1" data-reflect="0000">0000</span>
     </div>
 
-    <!-- عدد الذكور -->
+    <!-- Male Count -->
     <div class="number-field field-2">
         <span id="field-2" data-reflect="0000">0000</span>
     </div>
 
-    <!-- عدد المقابلات -->
+    <!-- Interviews Count -->
     <div class="number-field field-3">
         <span id="field-3" data-reflect="0000">0000</span>
     </div>
 
-    <!-- عدد الزوار -->
+    <!-- Visitors Count -->
     <div class="number-field field-4">
         <span id="field-4" data-reflect="0000">0000</span>
     </div>
 
-    <!-- عدد المؤسسات -->
+    <!-- Institutions Count -->
     <div class="number-field field-5">
         <span id="field-5" data-reflect="0026">26</span>
     </div>
 
     <!-- Time display section -->
     <div class="time-field" id="current-time">
-        <!-- سيتم تحديث الوقت هنا -->
+        <!-- Time will be updated here -->
     </div>
 
     <script>
-        // دالة لتحديث الوقت الحالي
+        // Update the current time
         function updateTime() {
             const now = new Date();
             const timeString = now.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
             document.getElementById('current-time').textContent = timeString;
         }
-        // تحديث الوقت كل ثانية
         setInterval(updateTime, 1000);
-        // عرض الوقت عند تحميل الصفحة لأول مرة
         updateTime();
 
-        // دالة لتحديث الرقم بشكل متحرك من 1 إلى الرقم المستهدف
+        // Animate number increase
         function animateNumber(fieldId, targetNumber, duration) {
             let currentNumber = 0;
-            const increment = Math.ceil(targetNumber / (duration / 10)); // زيادة الرقم بسرعة
+            const increment = Math.ceil(targetNumber / (duration / 10));
 
             const interval = setInterval(() => {
                 currentNumber += increment;
                 if (currentNumber >= targetNumber) {
                     currentNumber = targetNumber;
                     clearInterval(interval);
-                    // تكبير الرقم عند الوصول للرقم النهائي
                     const element = document.getElementById(fieldId);
-                    element.style.animation = 'enlarge 0.10s ease-in-out'; // تكبير الرقم
+                    element.style.animation = 'enlarge 0.10s ease-in-out';
                 }
                 document.getElementById(fieldId).textContent = currentNumber;
-                document.getElementById(fieldId).setAttribute('data-reflect', currentNumber); // تحديث الانعكاس
-            }, 30); // التحديث كل 50 مللي ثانية لسرعة العرض
+                document.getElementById(fieldId).setAttribute('data-reflect', currentNumber);
+            }, 30);
         }
 
-        // إعداد الأرقام المستهدفة
         const targets = {
-            'field-1': 100,  // العدد المستهدف للحقل 1
-            'field-2': 200,  // العدد المستهدف للحقل 2
-            'field-3': 300,  // العدد المستهدف للحقل 3
-            'field-4': 400,  // العدد المستهدف للحقل 4
-            'field-5': 26    // العدد المستهدف للحقل 5
+            'field-1': 100,
+            'field-2': 200,
+            'field-3': 300,
+            'field-4': 400,
+            'field-5': 26
         };
 
-        // بدأ العدادات مع تأخير بين كل حقل وآخر (عكس الترتيب)
         let delay = 0;
-        const fields = Object.keys(targets).reverse(); // عكس ترتيب الحقول
+        const fields = Object.keys(targets).reverse();
         fields.forEach((fieldId, index) => {
             setTimeout(() => {
-                animateNumber(fieldId, targets[fieldId], 2000);  // يتم العد في ثانيتين (2000 مللي ثانية)
+                animateNumber(fieldId, targets[fieldId], 2000);
             }, delay);
-            delay += 3200; // تأخير 4 ثواني بين كل حقل والحقل التالي
+            delay += 3200;
         });
 
+        // Hide loader once the page is fully loaded
+        window.onload = function() {
+            document.getElementById('loader').style.display = 'none';
+        };
     </script>
 
 </body>
