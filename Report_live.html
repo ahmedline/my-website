@@ -11,7 +11,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #f0f0f0 url('https://a7medline.neocities.org/Artboard1.jpg') center center / cover no-repeat fixed;
+            background: #f0f0f0;
             position: relative;
             will-change: background-image;
             transition: background-image 1s ease-in-out;
@@ -98,6 +98,9 @@
         Loading...
     </div>
 
+    <!-- Background Image -->
+    <img src="https://a7medline.neocities.org/Artboard1.jpg" alt="Background" style="display:none;" id="background-img" loading="lazy" onload="this.style.display='block'; document.body.style.backgroundImage = 'url(' + this.src + ')';">
+
     <!-- Female Count -->
     <div class="number-field field-1">
         <span id="field-1" data-reflect="0000">0000</span>
@@ -129,13 +132,13 @@
     </div>
 
     <script>
-         //  Update the current time
-         // function updateTime() {
-           //   const now = new Date();
-           //   const timeString = now.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-           //   document.getElementById('current-time').textContent = timeString;
-        //  }
-        
+        // Update the current time
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            document.getElementById('current-time').textContent = timeString;
+        }
+
         setInterval(updateTime, 1000);
         updateTime();
 
