@@ -15,12 +15,13 @@
             position: relative;
             will-change: background-image;
             transition: background-image 1s ease-in-out;
+            font-family: Arial, sans-serif;
         }
 
         .number-field {
             color: #3b1f05;
-            font-size: 60px;
-            padding: 15px;
+            font-size: 5vw; /* الحجم بناءً على عرض الشاشة */
+            padding: 1vw;
             position: absolute;
             text-align: center;
             animation: simple-blink 2s infinite ease-in-out;
@@ -38,36 +39,41 @@
         }
 
         .field-1 {
-            top: 59%;
-            left: 9.5%;
+            top: 55%;
+            left: 10%;
+            transform: translate(-50%, -50%);
         }
 
         .field-2 {
-            top: 59%;
-            left: 26.5%;
+            top: 55%;
+            left: 30%;
+            transform: translate(-50%, -50%);
         }
 
         .field-3 {
-            top: 59%;
-            left: 44.5%;
+            top: 55%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
 
         .field-4 {
-            top: 59%;
-            left: 62.5%;
+            top: 55%;
+            left: 70%;
+            transform: translate(-50%, -50%);
         }
 
         .field-5 {
-            top: 59%;
-            left: 81.5%;
+            top: 55%;
+            left: 90%;
+            transform: translate(-50%, -50%);
         }
 
         .time-field {
             position: absolute;
-            top: 15%;
-            left: 10%;
-            transform: translateX(-10%);
-            font-size: 24px;
+            top: 10%;
+            left: 5%;
+            transform: translateX(-5%);
+            font-size: 4vw;
             color: #181616a2;
             font-weight: bold;
         }
@@ -82,6 +88,27 @@
             justify-content: center;
             align-items: center;
             z-index: 10;
+        }
+
+        /* Media Queries for responsiveness */
+        @media (max-width: 768px) {
+            .number-field {
+                font-size: 7vw; /* تكبير النص للشاشات الأصغر */
+            }
+
+            .time-field {
+                font-size: 6vw;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .number-field {
+                font-size: 8vw;
+            }
+
+            .time-field {
+                font-size: 8vw;
+            }
         }
     </style>
 
