@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Interactive Report Summary</title>
-    <meta http-equiv="refresh" content="60"> <!-- تحديث تلقائي بعد 60 ثانية -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Report</title>
     <style>
         body, html {
             margin: 0;
@@ -13,143 +13,74 @@
             overflow: hidden;
             position: relative;
             font-family: Arial, sans-serif;
-        }
-
-        .background-image {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('https://raw.githubusercontent.com/ahmedline/my-website/main/images/iPad.jpg');
-            background-size: cover;
-            background-position: center;
-            z-index: -1;
+            background-color: #333;
         }
 
         .report-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
             position: relative;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
         }
 
         .report-item {
-            position: absolute;
-            font-size: 5vw; /* حجم خط متجاوب */
+            font-size: 10vw;
             font-weight: bold;
             color: white;
-            text-shadow: -1px -1px 2px rgba(0,0,0,0.5), 1px 1px 2px rgba(255,255,255,0.3); /* تأثير نحت */
+            text-shadow: -2px -2px 4px rgba(0, 0, 0, 0.7), 2px 2px 4px rgba(255, 255, 255, 0.2);
             opacity: 0;
-            transform: scale(1);
-            transition: opacity 0.5s, transform 0.5s;
-        }
-
-        /* مواقع الأرقام */
-        .item0 { top: 30%; left: 82%; }
-        .item1 { top: 30%; left: 32%; }
-        .item2 { top: 30%; right: 38.5%; }
-        .item3 { bottom: 20.5%; left: 81%; }
-        .item4 { bottom: 20.5%; right: 39%; }
-
-        /* تأثير وميض */
-        @keyframes blinkScale {
-            0% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0; transform: scale(1.1); }
-            100% { opacity: 1; transform: scale(1); }
+            transition: opacity 1s, transform 1s;
         }
 
         .blink {
-            animation: blinkScale 0.5s ease-in-out 10; /* وميض 10 مرات */
+            animation: blinkEffect 1s ease-in-out 10;
         }
 
-        /* Media Queries للشاشات الصغيرة */
-        @media (max-width: 768px) {
-            .report-item {
-                font-size: 8vw; /* حجم خط أكبر على الشاشات الصغيرة */
-            }
-            .item0 { top: 120%; left: 90%; }
-            .item1 { top: 120%; left: 25%; }
-            .item2 { top: 40%; left: 50%; transform: translateX(-50%); }
-            .item3 { bottom: 20%; left: 25%; }
-            .item4 { bottom: 20%; left: 75%; }
+        @keyframes blinkEffect {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
         }
     </style>
 </head>
 <body>
 
-    <div class="background-image"></div>
+<div class="report-container">
+    <div class="report-item" id="item0">0000</div>
+</div>
 
-    <div class="report-container">
-        <div class="report-item item0" id="item0">0000</div>
-        <div class="report-item item1" id="item1">0000</div>
-        <div class="report-item item2" id="item2">0000</div>
-        <div class="report-item item3" id="item3">0000</div>
-        <div class="report-item item4" id="item4">0000</div>
-    </div>
+<script>
+    const targetNumber = 0100;  // عدد المؤسسات
+    const duration = 3000;  // مدة العد 3 ثوانٍ
+    const element = document.getElementById('item0');
 
-    <script>
-        // الأرقام المستهدفة
-        const targetNumbers = {
-            item0: 0100,
-            item1: 0002,
-            item2: 0532,
-            item3: 0400,
-            item4: 0900
-        };
+    function animateNumber(element, targetNumber, duration) {
+        let startTime = null;
 
-        // ترتيب الحقول والوقت بين كل حقل
-        const fieldsOrder = ['item0', 'item1', 'item2', 'item3', 'item4'];
-        const delayBetweenFields = 5000; // 5000 ملي ثانية = 5 ثواني
+        function step(timestamp) {
+            if (!startTime) startTime = timestamp;
+            const progress = timestamp - startTime;
+            const current = Math.min(Math.floor((progress / duration) * targetNumber), targetNumber);
 
-        // دالة لتحريك رقم واحد
-        function animateNumber(elementId, targetNumber, callback) {
-            let currentNumber = 0;
-            const duration = 3000; // مدة التحريك الكاملة بالمللي ثانية
-            const interval = 40; // الوقت بين التحديثات بالمللي ثانية
-            const totalSteps = duration / interval;
-            const increment = Math.ceil(targetNumber / totalSteps);
+            element.textContent = current.toString().padStart(4, '0');
 
-            const element = document.getElementById(elementId);
-            element.style.opacity = 1; // جعل الرقم مرئي
-
-            const counter = setInterval(() => {
-                currentNumber += increment;
-                if (currentNumber >= targetNumber) {
-                    currentNumber = targetNumber;
-                    clearInterval(counter);
-                    if (callback) {
-                        callback();
-                    }
-                }
-                element.textContent = currentNumber.toString().padStart(4, '0');
-            }, interval);
+            if (current < targetNumber) {
+                window.requestAnimationFrame(step);
+            } else {
+                element.classList.add('blink');  // إضافة تأثير الوميض بعد الوصول للرقم النهائي
+            }
         }
 
-        // دالة لبدء وميض الأرقام
-        function blinkAllNumbers() {
-            fieldsOrder.forEach(itemId => {
-                const element = document.getElementById(itemId);
-                element.classList.add('blink');
-            });
-        }
+        window.requestAnimationFrame(step);
+        element.style.opacity = 1;
+    }
 
-        // دالة لتحريك الأرقام بشكل متسلسل
-        function animateNumbersSequentially() {
-            fieldsOrder.forEach((itemId, index) => {
-                setTimeout(() => {
-                    animateNumber(itemId, parseInt(targetNumbers[itemId]), () => {
-                        if (index === fieldsOrder.length - 1) {
-                            setTimeout(blinkAllNumbers, 1000); // بدء الوميض بعد تأخير قصير
-                        }
-                    });
-                }, index * delayBetweenFields);
-            });
-        }
-
-        // بدء التحريك عند تحميل الصفحة
-        window.onload = animateNumbersSequentially;
-    </script>
+    window.onload = function() {
+        animateNumber(element, targetNumber, duration);
+    }
+</script>
 
 </body>
 </html>
+    
