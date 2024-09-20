@@ -36,7 +36,7 @@
             width: 8ch;
             text-align: center;
             transition: transform 0.8s ease;
-            animation: scaleAndBlink 2s 10; /* تأثير الوميض والتكبير، يتكرر 3 مرات فقط */
+            animation: scaleAndBlink 2s 5; /* تأثير الوميض والتكبير، يتكرر 3 مرات فقط */
             animation-fill-mode: forwards; /* تثبيت الوضع النهائي بعد الأنيميشن */
         }
         @keyframes scaleAndBlink {
@@ -167,7 +167,7 @@
         function reloadData() {
             setTimeout(function() {
                 window.location.reload();
-            }, 60000);  // إعادة تحميل الصفحة كل 60 ثانية
+            }, 120000);  // إعادة تحميل الصفحة كل 60 ثانية
         }
         reloadData();
     </script>
