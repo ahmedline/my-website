@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Interactive Report Summary</title>
-    <meta http-equiv="refresh" content="10"> <!-- تحديث تلقائي بعد 10 ثواني -->
+    <meta http-equiv="refresh" content="60"> <!-- تحديث تلقائي بعد 60 ثانية -->
     <style>
         body, html {
             margin: 0;
@@ -39,7 +39,7 @@
             font-size: 5vw; /* حجم خط متجاوب */
             font-weight: bold;
             color: white;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.7); /* تحسين الظل */
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7); /* تأثير ظل محسّن */
             opacity: 0;
             transform: scale(1);
             transition: opacity 0.5s, transform 0.5s;
@@ -52,25 +52,24 @@
         .item3 { bottom: 20.5%; left: 81%; }
         .item4 { bottom: 20.5%; right: 39%; }
 
-        /* تأثير وميض */
+        /* تأثير الوميض وتكبير الخط */
         @keyframes blinkScale {
-            0% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0; transform: scale(1.1); }
-            100% { opacity: 1; transform: scale(1); }
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.5;
+                transform: scale(1.1);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
-        /* تأثير دوران */
-        @keyframes rotateAnimation {
-            from { transform: rotate(0deg) scale(1); }
-            to { transform: rotate(360deg) scale(1.05); }
-        }
-
-        .blink {
-            animation: blinkScale 0.5s ease-in-out 10; /* وميض 10 مرات */
-        }
-
-        .rotate {
-            animation: rotateAnimation 1s ease-in-out;
+        .blink-scale {
+            animation: blinkScale 1s ease-in-out 10; /* وميض 10 مرات */
         }
 
         /* Media Queries للشاشات الصغيرة */
@@ -101,7 +100,7 @@
     <script>
         // الأرقام المستهدفة
         const targetNumbers = {
-            item0: 0100,
+            item0: 0000,
             item1: 0100,
             item2: 0200,
             item3: 0300,
@@ -116,9 +115,9 @@
         function animateNumber(elementId, targetNumber, callback) {
             let currentNumber = 0;
             const duration = 2000; // مدة التحريك الكاملة بالمللي ثانية
-            const interval = 50; // الوقت بين التحديثات بالمللي ثانية
-            const totalSteps = duration / interval;
-            const increment = Math.ceil(targetNumber / totalSteps);
+            const intervalTime = 50; // الوقت بين كل تحديث بالمللي ثانية
+            const totalSteps = duration / intervalTime;
+            const increment = targetNumber / totalSteps;
 
             const element = document.getElementById(elementId);
             element.style.opacity = 1; // جعل الرقم مرئي
@@ -131,45 +130,27 @@
                     if (callback) {
                         callback();
                     }
+                    // إضافة تأثير الوميض وتكبير الخط بعد الوصول للقيمة المستهدفة
+                    element.classList.add('blink-scale');
+                    // إزالة الكلاس بعد انتهاء التأثير للسماح بتطبيقه مرة أخرى في المستقبل
+                    setTimeout(() => {
+                        element.classList.remove('blink-scale');
+                    }, 10000); // مدة التأثير نفسها (10 مرات)
                 }
-                element.textContent = currentNumber.toString().padStart(4, '0');
-            }, interval);
+                element.textContent = Math.floor(currentNumber).toString().padStart(4, '0');
+            }, intervalTime);
         }
 
-        // دالة لإضافة تأثير الدوران
-        function rotateElement(elementId) {
-            const element = document.getElementById(elementId);
-            element.classList.add('rotate');
-            // إزالة الفئة بعد انتهاء الحركة لإمكانية إعادة تشغيلها لاحقًا
-            setTimeout(() => {
-                element.classList.remove('rotate');
-            }, 1000); // مدة الحركة 1 ثانية
-        }
-
-        // دالة لبدء وميض الأرقام
-        function blinkAllNumbers() {
-            fieldsOrder.forEach(itemId => {
-                const element = document.getElementById(itemId);
-                element.classList.add('blink');
-            });
-        }
-
-        // دالة لتحريك الأرقام بشكل متسلسل
+        // دالة لبدء تحريك الأرقام بشكل متسلسل
         function animateNumbersSequentially() {
             function animateNextField(index) {
                 if (index < fieldsOrder.length) {
                     const itemId = fieldsOrder[index];
-                    animateNumber(itemId, parseInt(targetNumbers[itemId]), () => {
-                        // بعد الوصول للرقم المستهدف، أضف تأثير الدوران
-                        rotateElement(itemId);
-                        // ابدأ تحريك الرقم التالي بعد تأخير بسيط
-                        setTimeout(() => {
-                            animateNextField(index + 1);
-                        }, 1000); // تأخير 1 ثانية قبل التحريك التالي
+                    animateNumber(itemId, targetNumbers[itemId], () => {
+                        animateNextField(index + 1); // ابدأ الرقم التالي بعد انتهاء الحالي
                     });
                 } else {
-                    // بعد انتهاء جميع الأرقام، ابدأ الوميض
-                    setTimeout(blinkAllNumbers, 1000); // بدء الوميض بعد 1 ثانية
+                    // بعد الانتهاء من جميع الأرقام، يمكن إضافة أي تأثير إضافي هنا إذا لزم الأمر
                 }
             }
             animateNextField(0);  // ابدأ بالعنصر الأول
