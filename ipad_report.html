@@ -41,7 +41,7 @@
             color: white;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
             opacity: 0;
-            transform: rotate(0deg);
+            transform: scale(1);
             transition: opacity 0.5s, transform 0.5s;
         }
 
@@ -52,13 +52,16 @@
         .item3 { bottom: 20.5%; left: 81%; }
         .item4 { bottom: 20.5%; right: 39%; }
 
-        /* Blinking effect */
-        @keyframes blinker {
-            50% { opacity: 0; }
+        /* Blinking and scaling effect */
+        @keyframes blinkScale {
+            0% { opacity: 1; transform: scale(1); }
+            33% { opacity: 0; transform: scale(1.2); }
+            66% { opacity: 0; transform: scale(1.2); }
+            100% { opacity: 1; transform: scale(1); }
         }
 
         .blink {
-            animation: blinker 1s linear infinite;
+            animation: blinkScale 1s ease-in-out 3; /* Blink 3 times */
         }
 
         /* Media Queries for small screens */
@@ -89,19 +92,24 @@
     <script>
         // Target numbers
         const targetNumbers = {
-            item0: "0045",
-            item1: "0002",
-            item2: "0532",
-            item3: "0400",
-            item4: "0900"
+            item0: 0045,
+            item1: 0002,
+            item2: 0532,
+            item3: 0400,
+            item4: 0900
         };
 
-        // Function to animate numbers
-        function animateNumber(elementId, targetNumber) {
+        // Define the order of fields and delay between each
+        const fieldsOrder = ['item0', 'item1', 'item2', 'item3', 'item4'];
+        const delayBetweenFields = 5000; // 5000 milliseconds = 5 seconds
+
+        // Function to animate a single number
+        function animateNumber(elementId, targetNumber, callback) {
             let currentNumber = 0;
-            const duration = 2000; // Duration of the animation in milliseconds
+            const duration = 2000; // Total duration of the counting animation in milliseconds
             const interval = 50; // Time between updates in milliseconds
-            const increment = Math.ceil(targetNumber / (duration / interval));
+            const totalSteps = duration / interval;
+            const increment = Math.ceil(targetNumber / totalSteps);
 
             const element = document.getElementById(elementId);
             element.style.opacity = 1; // Make the number visible
@@ -111,23 +119,33 @@
                 if (currentNumber >= targetNumber) {
                     currentNumber = targetNumber;
                     clearInterval(counter);
-                    // Add blinking and rotating effect after reaching the target number
-                    element.classList.add('blink');
-                    element.style.transform = 'rotate(360deg)';
+                    if (callback) {
+                        callback();
+                    }
                 }
                 element.textContent = currentNumber.toString().padStart(4, '0');
             }, interval);
         }
 
-        // Animate numbers with delay between them
+        // Function to start blinking all numbers
+        function blinkAllNumbers() {
+            fieldsOrder.forEach(itemId => {
+                const element = document.getElementById(itemId);
+                element.classList.add('blink');
+            });
+        }
+
+        // Function to animate numbers sequentially
         function animateNumbersSequentially() {
-            const items = ['item0', 'item1', 'item2', 'item3', 'item4'];
-            let delay = 0;
-            items.forEach((itemId) => {
+            fieldsOrder.forEach((itemId, index) => {
                 setTimeout(() => {
-                    animateNumber(itemId, parseInt(targetNumbers[itemId]));
-                }, delay);
-                delay += 500; // Delay between animations (0.5 seconds)
+                    animateNumber(itemId, parseInt(targetNumbers[itemId]), () => {
+                        // After the last number has been animated, start blinking
+                        if (index === fieldsOrder.length - 1) {
+                            setTimeout(blinkAllNumbers, 1000); // Start blinking after a short delay
+                        }
+                    });
+                }, index * delayBetweenFields);
             });
         }
 
