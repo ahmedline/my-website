@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Summary</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* جعل الخلفية تغطي الشاشة بالكامل */
+        .background-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://raw.githubusercontent.com/ahmedline/my-website/main/images/iPad.jpg');
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+        }
+
+        .report-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .report-item {
+            position: absolute;
+            font-size: 48px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        /* التحكم في أماكن الأرقام */
+        .item0 { top: 29%; left: 82%; }
+        .item1 { top: 29%; left: 32%; }
+        .item2 { top: 29%; right:38.5%; }
+        .item3 { bottom: 20.5%; left: 81%; }
+        .item4 { bottom: 20.5%; right: 39%; }
+    </style>
+</head>
+<body>
+
+    <div class="background-image"></div>
+
+    <div class="report-container">
+         <div class="report-item item0">26</div>
+   
+        <div class="report-item item1">0002</div>
+        <div class="report-item item2">0532</div>
+        <div class="report-item item3">0400</div>
+        <div class="report-item item4">0900</div>
+    </div>
+
+</body>
+</html>
