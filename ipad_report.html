@@ -1,181 +1,62 @@
+
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Interactive Report Summary</title>
-    <meta http-equiv="refresh" content="60"> <!-- تحديث تلقائي بعد 60 ثانية -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report</title>
     <style>
         body, html {
             margin: 0;
             padding: 0;
             height: 100%;
             width: 100%;
-            overflow: hidden;
-            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-family: Arial, sans-serif;
-            direction: rtl; /* لضبط اتجاه النص للغة العربية */
         }
-
-        .background-image {
-            position: absolute;
-            top: 0;
-            left: 0;
+        .container {
+            position: relative;
             width: 100%;
             height: 100%;
             background-image: url('https://raw.githubusercontent.com/ahmedline/my-website/main/images/iPad.jpg');
-            background-size: cover;
-            background-position: center;
-            z-index: -1;
+            background-size: cover; /* يجعل الصورة تغطي الشاشة بالكامل */
+            background-position: center; /* يركز الصورة في منتصف الشاشة */
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-
-        .report-container {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
-
-        .report-item {
+        .number {
             position: absolute;
-            font-size: 5vw; /* حجم خط متجاوب */
-            font-weight: bold;
             color: white;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.7); /* تأثير ظل محسّن */
-            opacity: 0;
-            transform: scale(1);
-            transition: opacity 0.5s, transform 0.5s;
+            font-size: 4em; /* يمكنك التحكم في حجم الخط هنا */
+            font-weight: bold;
         }
-
-        /* مواقع الأرقام */
-        .item0 { top: 30%; left: 82%; }
-        .item1 { top: 30%; left: 32%; }
-        .item2 { top: 30%; right: 38.5%; }
-        .item3 { bottom: 20.5%; left: 81%; }
-        .item4 { bottom: 20.5%; right: 39%; }
-
-        /* تأثير الوميض وتكبير الخط */
-        @keyframes blinkScale {
-            0% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 0.5;
-                transform: scale(1.1);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
+        #interviews {
+            top: 10%;  /* الموضع العمودي */
+            left: 10%; /* الموضع الأفقي */
         }
-
-        .blink-scale {
-            animation: blinkScale 1s ease-in-out infinite; /* وميض مستمر */
+        #visitors {
+            top: 20%;  /* الموضع العمودي */
+            right: 10%; /* الموضع الأفقي */
         }
-
-        /* Media Queries للشاشات الصغيرة */
-        @media (max-width: 768px) {
-            .report-item {
-                font-size: 8vw; /* حجم خط أكبر على الشاشات الصغيرة */
-            }
-            .item0 { top: 120%; left: 90%; }
-            .item1 { top: 120%; left: 25%; }
-            .item2 { top: 40%; left: 50%; transform: translateX(-50%); }
-            .item3 { bottom: 20%; left: 25%; }
-            .item4 { bottom: 20%; left: 75%; }
+        #males {
+            bottom: 20%;  /* الموضع العمودي */
+            left: 20%; /* الموضع الأفقي */
+        }
+        #females {
+            bottom: 10%;  /* الموضع العمودي */
+            right: 20%; /* الموضع الأفقي */
         }
     </style>
 </head>
 <body>
-
-    <div class="background-image"></div>
-
-    <div class="report-container">
-        <div class="report-item item0" id="item0">0000</div>
-        <div class="report-item item1" id="item1">0000</div>
-        <div class="report-item item2" id="item2">0000</div>
-        <div class="report-item item3" id="item3">0000</div>
-        <div class="report-item item4" id="item4">0000</div>
+    <div class="container">
+        <div class="number" id="interviews">100</div>
+        <div class="number" id="visitors">200</div>
+        <div class="number" id="males">300</div>
+        <div class="number" id="females">400</div>
     </div>
-
-    <script>
-        // الأرقام المستهدفة
-        const targetNumbers = {
-            item0: 0050,
-            item1: 0100,
-            item2: 0200,
-            item3: 0300,
-            item4: 0400
-        };
-
-        // ترتيب الحقول والوقت بين كل حقل
-        const fieldsOrder = ['item0', 'item1', 'item2', 'item3', 'item4'];
-        const delayBetweenFields = 500; // 500 ملي ثانية = 0.5 ثانية
-
-        let completedAnimations = 0;
-
-        // دالة لتحريك رقم واحد باستخدام requestAnimationFrame لضمان وصول الرقم إلى القيمة المستهدفة
-        function animateNumber(elementId, targetNumber, callback) {
-            const element = document.getElementById(elementId);
-            const duration = 2000; // مدة التحريك بالمللي ثانية
-            let startTime = null;
-            let currentNumber = 0;
-
-            function updateNumber(timestamp) {
-                if (!startTime) startTime = timestamp;
-                const elapsed = timestamp - startTime;
-                const progressRatio = Math.min(elapsed / duration, 1);
-                currentNumber = Math.floor(progressRatio * targetNumber);
-                element.textContent = currentNumber.toString().padStart(4, '0');
-
-                if (elapsed < duration) {
-                    requestAnimationFrame(updateNumber);
-                } else {
-                    element.textContent = targetNumber.toString().padStart(4, '0');
-                    completedAnimations++;
-                    if (completedAnimations === fieldsOrder.length) {
-                        // بعد انتهاء جميع التحريكات، قم بتطبيق تأثير الوميض على جميع الأرقام
-                        blinkAllNumbers();
-                    }
-                    if (callback) {
-                        callback();
-                    }
-                }
-            }
-
-            requestAnimationFrame(updateNumber);
-        }
-
-        // دالة لبدء تحريك الأرقام بشكل متسلسل
-        function animateNumbersSequentially() {
-            function animateNextField(index) {
-                if (index < fieldsOrder.length) {
-                    const itemId = fieldsOrder[index];
-                    animateNumber(itemId, targetNumbers[itemId], () => {
-                        // تأخير قبل بدء التحريك التالي
-                        setTimeout(() => {
-                            animateNextField(index + 1);
-                        }, delayBetweenFields);
-                    });
-                } else {
-                    // بعد الانتهاء من جميع الأرقام، يمكن إضافة أي تأثير إضافي هنا إذا لزم الأمر
-                }
-            }
-            animateNextField(0);
-        }
-
-        // دالة لتطبيق تأثير الوميض على جميع الأرقام
-        function blinkAllNumbers() {
-            fieldsOrder.forEach(itemId => {
-                const element = document.getElementById(itemId);
-                element.classList.add('blink-scale');
-                element.style.opacity = 1; // تأكد من أن الأرقام مرئية
-            });
-        }
-
-        // بدء التحريك عند تحميل الصفحة
-        window.onload = animateNumbersSequentially;
-    </script>
-
 </body>
 </html>
