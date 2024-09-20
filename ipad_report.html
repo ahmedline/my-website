@@ -32,12 +32,20 @@
             color: white;
             font-size: 4em;
             font-weight: bold;
-            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
-            animation: blink 1s infinite; /* تأثير الوميض */
+            text-shadow: 2px 2px 10px rgba(255, 255, 255, 0.7);
+            transition: transform 0.5s ease; /* تأثير التحول */
+        }
+        .number.finished {
+            animation: lightBlink 2s infinite; /* وميض خفيف للأرقام بعد الانتهاء */
+        }
+        @keyframes lightBlink {
+            0% { opacity: 1; }
+            50% { opacity: 0.8; }
+            100% { opacity: 1; }
         }
         #interviews {
             top: 34.5%;  
-            left: 30%; 
+            left: 27%; 
         }
         #visitors {
             top: 34.5%;  
@@ -52,29 +60,41 @@
             right: 36.5%; 
         }
         #institutions {
-            top: 10%;  /* يمكنك تعديل الموضع */
-            left: 50%;
+            top: 34.5%;  /* يمكنك تعديل الموضع */
+            left: 83.5%;
             transform: translateX(-50%);
         }
-        @keyframes blink {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
+        .clock {
+            position: absolute;
+            top: 27%;  /* يمكنك تعديل الموضع */
+            left: 14%;
+            transform: translateX(-50%);
+            font-size: 2.5em;
+            color: black;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8); /* تأثير الظل */
+            background: #f5f5f5;
+            border-radius: 10px;
+            padding: 10px 20px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="number" id="interviews">0</div>
-        <div class="number" id="visitors">0</div>
-        <div class="number" id="males">0</div>
-        <div class="number" id="females">0</div>
-        <div class="number" id="institutions">0</div>
+        <div class="number" id="interviews">00000</div>
+        <div class="number" id="visitors">000</div>
+        <div class="number" id="males">000</div>
+        <div class="number" id="females">000</div>
+        <div class="number" id="institutions">00</div>
+        <div class="clock" id="clock"></div>
     </div>
 
     <script>
         // وظيفة لتصاعد الأرقام تدريجياً
-        function animateValue(id, start, end, duration) {
+        function animateValue(id, start, end, duration, zeros) {
+            if (end === 0 || isNaN(end)) {
+                document.getElementById(id).textContent = '0'.padStart(zeros, '0');
+                return;
+            }
             let range = end - start;
             let current = start;
             let increment = end > start ? 1 : -1;
@@ -82,19 +102,61 @@
             let obj = document.getElementById(id);
             let timer = setInterval(function() {
                 current += increment;
-                obj.textContent = current.toString().padStart(4, '0'); // إضافة الأصفار البادئة
+                obj.textContent = current.toString().padStart(zeros, '0'); // إضافة الأصفار البادئة
                 if (current == end) {
                     clearInterval(timer);
+                    allFinished();  // تحقق من انتهاء العد
                 }
             }, stepTime);
         }
 
-        // استدعاء الوظيفة لجميع الأرقام
-        animateValue("interviews", 0, 300, 2000);
-        animateValue("visitors", 0, 400, 2000);
-        animateValue("males", 0, 600, 2000);
-        animateValue("females", 0, 800, 2000);
-        animateValue("institutions", 0, 35, 2000);
+        // التأكد من انتهاء جميع الأرقام
+        let finishedCounts = 0;
+        function allFinished() {
+            finishedCounts += 1;
+            if (finishedCounts === 5) {
+                let elements = document.querySelectorAll('.number');
+                elements.forEach(function(element) {
+                    element.classList.add('finished'); // إضافة تأثير الوميض بعد انتهاء العد
+                });
+            }
+        }
+
+        // استدعاء الوظيفة لجميع الأرقام مع فاصل زمني
+        setTimeout(function() {
+            animateValue("interviews", 0, 700, 2000, 5); // خمس أصفار
+        }, 0); // يبدأ فوراً
+
+        setTimeout(function() {
+            animateValue("visitors", 0, 200, 2000, 3); // ثلاث أصفار
+        }, 4000); // يبدأ بعد 2 ثانية
+
+        setTimeout(function() {
+            animateValue("males", 0, 100, 2000, 3); // ثلاث أصفار
+        }, 5000); // يبدأ بعد 4 ثواني
+
+        setTimeout(function() {
+            animateValue("females", 0, 100, 2000, 3); // ثلاث أصفار
+        }, 6000); // يبدأ بعد 6 ثواني
+
+        setTimeout(function() {
+            animateValue("institutions", 0, 31, 2000, 2); // صفرين
+        }, 5000); // يبدأ بعد 8 ثواني
+
+        // تحديث الساعة الرقمية
+        function updateClock() {
+            var now = new Date();
+            var hours = now.getHours().toString().padStart(2, '0');
+            var minutes = now.getMinutes().toString().padStart(2, '0');
+            var seconds = now.getSeconds().toString().padStart(2, '0');
+            document.getElementById('clock').textContent = hours + ':' + minutes + ':' + seconds;
+        }
+        setInterval(updateClock, 1000);  // تحديث كل ثانية
+
+        // تحديث الصفحة كل 50 ثانية
+        setTimeout(function() {
+            window.location.reload();
+        }, 120000);
     </script>
 </body>
 </html>
