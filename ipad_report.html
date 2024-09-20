@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Interactive Report Summary</title>
-    <meta http-equiv="refresh" content="60"> <!-- تحديث تلقائي بعد 60 ثانية -->
+    <meta http-equiv="refresh" content="10"> <!-- تحديث تلقائي بعد 10 ثواني -->
     <style>
         body, html {
             margin: 0;
@@ -39,7 +39,7 @@
             font-size: 5vw; /* حجم خط متجاوب */
             font-weight: bold;
             color: white;
-            text-shadow: -1px -1px 2px rgba(0,0,0,0.5), 1px 1px 2px rgba(255,255,255,0.3); /* تأثير نحت */
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7); /* تحسين الظل */
             opacity: 0;
             transform: scale(1);
             transition: opacity 0.5s, transform 0.5s;
@@ -59,8 +59,18 @@
             100% { opacity: 1; transform: scale(1); }
         }
 
+        /* تأثير دوران */
+        @keyframes rotateAnimation {
+            from { transform: rotate(0deg) scale(1); }
+            to { transform: rotate(360deg) scale(1.05); }
+        }
+
         .blink {
             animation: blinkScale 0.5s ease-in-out 10; /* وميض 10 مرات */
+        }
+
+        .rotate {
+            animation: rotateAnimation 1s ease-in-out;
         }
 
         /* Media Queries للشاشات الصغيرة */
@@ -100,13 +110,13 @@
 
         // ترتيب الحقول والوقت بين كل حقل
         const fieldsOrder = ['item0', 'item1', 'item2', 'item3', 'item4'];
-        const delayBetweenFields = 5000; // 5000 ملي ثانية = 5 ثواني
+        const delayBetweenFields = 500; // 500 ملي ثانية = 0.5 ثانية
 
         // دالة لتحريك رقم واحد
         function animateNumber(elementId, targetNumber, callback) {
             let currentNumber = 0;
-            const duration = 3000; // مدة التحريك الكاملة بالمللي ثانية
-            const interval = 40; // الوقت بين التحديثات بالمللي ثانية
+            const duration = 2000; // مدة التحريك الكاملة بالمللي ثانية
+            const interval = 50; // الوقت بين التحديثات بالمللي ثانية
             const totalSteps = duration / interval;
             const increment = Math.ceil(targetNumber / totalSteps);
 
@@ -126,6 +136,16 @@
             }, interval);
         }
 
+        // دالة لإضافة تأثير الدوران
+        function rotateElement(elementId) {
+            const element = document.getElementById(elementId);
+            element.classList.add('rotate');
+            // إزالة الفئة بعد انتهاء الحركة لإمكانية إعادة تشغيلها لاحقًا
+            setTimeout(() => {
+                element.classList.remove('rotate');
+            }, 1000); // مدة الحركة 1 ثانية
+        }
+
         // دالة لبدء وميض الأرقام
         function blinkAllNumbers() {
             fieldsOrder.forEach(itemId => {
@@ -140,10 +160,16 @@
                 if (index < fieldsOrder.length) {
                     const itemId = fieldsOrder[index];
                     animateNumber(itemId, parseInt(targetNumbers[itemId]), () => {
-                        animateNextField(index + 1); // ابدأ الرقم التالي بعد انتهاء الحالي
+                        // بعد الوصول للرقم المستهدف، أضف تأثير الدوران
+                        rotateElement(itemId);
+                        // ابدأ تحريك الرقم التالي بعد تأخير بسيط
+                        setTimeout(() => {
+                            animateNextField(index + 1);
+                        }, 1000); // تأخير 1 ثانية قبل التحريك التالي
                     });
                 } else {
-                    setTimeout(blinkAllNumbers, 1000); // بدء الوميض بعد الانتهاء من جميع الأرقام
+                    // بعد انتهاء جميع الأرقام، ابدأ الوميض
+                    setTimeout(blinkAllNumbers, 1000); // بدء الوميض بعد 1 ثانية
                 }
             }
             animateNextField(0);  // ابدأ بالعنصر الأول
