@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
     <title>Interactive Report Summary</title>
@@ -13,6 +13,7 @@
             overflow: hidden;
             position: relative;
             font-family: Arial, sans-serif;
+            direction: rtl; /* لضبط اتجاه النص للغة العربية */
         }
 
         .background-image {
@@ -69,7 +70,7 @@
         }
 
         .blink-scale {
-            animation: blinkScale 1s ease-in-out 10; /* وميض 10 مرات */
+            animation: blinkScale 1s ease-in-out infinite; /* وميض مستمر */
         }
 
         /* Media Queries للشاشات الصغيرة */
@@ -100,16 +101,18 @@
     <script>
         // الأرقام المستهدفة
         const targetNumbers = {
-            item0: 100,
-            item1: 100,
-            item2: 200,
-            item3: 300,
-            item4: 400
+            item0: 0050,
+            item1: 0100,
+            item2: 0200,
+            item3: 0300,
+            item4: 0400
         };
 
         // ترتيب الحقول والوقت بين كل حقل
         const fieldsOrder = ['item0', 'item1', 'item2', 'item3', 'item4'];
         const delayBetweenFields = 500; // 500 ملي ثانية = 0.5 ثانية
+
+        let completedAnimations = 0;
 
         // دالة لتحريك رقم واحد باستخدام requestAnimationFrame لضمان وصول الرقم إلى القيمة المستهدفة
         function animateNumber(elementId, targetNumber, callback) {
@@ -129,12 +132,11 @@
                     requestAnimationFrame(updateNumber);
                 } else {
                     element.textContent = targetNumber.toString().padStart(4, '0');
-                    // إضافة تأثير الوميض وتكبير الخط بعد الوصول للقيمة المستهدفة
-                    element.classList.add('blink-scale');
-                    // إزالة الكلاس بعد انتهاء التأثير للسماح بتطبيقه مرة أخرى في المستقبل
-                    setTimeout(() => {
-                        element.classList.remove('blink-scale');
-                    }, 10000); // مدة التأثير نفسها (10 مرات)
+                    completedAnimations++;
+                    if (completedAnimations === fieldsOrder.length) {
+                        // بعد انتهاء جميع التحريكات، قم بتطبيق تأثير الوميض على جميع الأرقام
+                        blinkAllNumbers();
+                    }
                     if (callback) {
                         callback();
                     }
@@ -150,6 +152,7 @@
                 if (index < fieldsOrder.length) {
                     const itemId = fieldsOrder[index];
                     animateNumber(itemId, targetNumbers[itemId], () => {
+                        // تأخير قبل بدء التحريك التالي
                         setTimeout(() => {
                             animateNextField(index + 1);
                         }, delayBetweenFields);
@@ -159,6 +162,15 @@
                 }
             }
             animateNextField(0);
+        }
+
+        // دالة لتطبيق تأثير الوميض على جميع الأرقام
+        function blinkAllNumbers() {
+            fieldsOrder.forEach(itemId => {
+                const element = document.getElementById(itemId);
+                element.classList.add('blink-scale');
+                element.style.opacity = 1; // تأكد من أن الأرقام مرئية
+            });
         }
 
         // بدء التحريك عند تحميل الصفحة
