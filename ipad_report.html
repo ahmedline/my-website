@@ -81,7 +81,7 @@
     <div class="background-image"></div>
 
     <div class="report-container">
-        <div class="report-item item0" id="item0">26</div>
+        <div class="report-item item0" id="item0">0000</div>
         <div class="report-item item1" id="item1">0000</div>
         <div class="report-item item2" id="item2">0000</div>
         <div class="report-item item3" id="item3">0000</div>
@@ -92,10 +92,10 @@
         // الأرقام المستهدفة
         const targetNumbers = {
             item0: 0100,
-            item1: 1000,
-            item2: 0040,
-            item3: 0020,
-            item4: 0020
+            item1: 0002,
+            item2: 0001,
+            item3: 0001,
+            item4: 0000
         };
 
         // ترتيب الحقول والوقت بين كل حقل
@@ -136,15 +136,17 @@
 
         // دالة لتحريك الأرقام بشكل متسلسل
         function animateNumbersSequentially() {
-            fieldsOrder.forEach((itemId, index) => {
-                setTimeout(() => {
+            function animateNextField(index) {
+                if (index < fieldsOrder.length) {
+                    const itemId = fieldsOrder[index];
                     animateNumber(itemId, parseInt(targetNumbers[itemId]), () => {
-                        if (index === fieldsOrder.length - 1) {
-                            setTimeout(blinkAllNumbers, 1000); // بدء الوميض بعد تأخير قصير
-                        }
+                        animateNextField(index + 1); // ابدأ الرقم التالي بعد انتهاء الحالي
                     });
-                }, index * delayBetweenFields);
-            });
+                } else {
+                    setTimeout(blinkAllNumbers, 1000); // بدء الوميض بعد الانتهاء من جميع الأرقام
+                }
+            }
+            animateNextField(0);  // ابدأ بالعنصر الأول
         }
 
         // بدء التحريك عند تحميل الصفحة
