@@ -36,13 +36,25 @@
             width: 8ch;
             text-align: center;
             transition: transform 0.8s ease;
-            animation: scaleAndBlink 5s 3; /* تأثير الوميض والتكبير، يتكرر 6 مرات فقط */
+            animation: scaleAndBlink 5s 3; /* تأثير الوميض والتكبير، يتكرر 3 مرات فقط */
             animation-fill-mode: forwards; /* تثبيت الوضع النهائي بعد الأنيميشن */
         }
         @keyframes scaleAndBlink {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.2); opacity: 0.8; } /* تكبير الوميض */
-            100% { transform: scale(1); opacity: 1; }
+            0% { 
+                transform: scale(1); 
+                opacity: 1; 
+                color: white;  /* اللون الأبيض في البداية */
+            }
+            50% { 
+                transform: scale(1.2); 
+                opacity: 0.8; 
+                color: #B4926D;  /* اللون الوميضي المطلوب */
+            } 
+            100% { 
+                transform: scale(1); 
+                opacity: 1; 
+                color: white;  /* العودة إلى اللون الأبيض */
+            }
         }
         #interviews {
             top: 35.5%;  
@@ -155,7 +167,7 @@
         function reloadData() {
             setTimeout(function() {
                 window.location.reload();
-            }, 60000);  // إعادة تحميل الصفحة كل 50 ثانية
+            }, 60000);  // إعادة تحميل الصفحة كل 60 ثانية
         }
         reloadData();
     </script>
