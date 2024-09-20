@@ -13,7 +13,6 @@
             overflow: hidden;
             position: relative;
             font-family: Arial, sans-serif;
-            background-color: #000; /* Fallback background */
         }
 
         .background-image {
@@ -26,7 +25,6 @@
             background-size: cover;
             background-position: center;
             z-index: -1;
-            opacity: 0.8;
         }
 
         .report-container {
@@ -41,11 +39,7 @@
             font-size: 5vw; /* Responsive font size */
             font-weight: bold;
             color: white;
-            text-shadow: 
-                -1px -1px 0 #000,  
-                1px -1px 0 #000,
-                -1px 1px 0 #000,
-                1px 1px 0 #000; /* Sculpted edges */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
             opacity: 0;
             transform: scale(1);
             transition: opacity 0.5s, transform 0.5s;
@@ -61,9 +55,8 @@
         /* Blinking and scaling effect */
         @keyframes blinkScale {
             0% { opacity: 1; transform: scale(1); }
-            25% { opacity: 0; transform: scale(1.2); }
-            50% { opacity: 1; transform: scale(1); }
-            75% { opacity: 0; transform: scale(1.2); }
+            33% { opacity: 0; transform: scale(1.2); }
+            66% { opacity: 0; transform: scale(1.2); }
             100% { opacity: 1; transform: scale(1); }
         }
 
@@ -76,8 +69,8 @@
             .report-item {
                 font-size: 8vw; /* Larger font size on small screens */
             }
-            .item0 { top: 70%; left: 75%; }
-            .item1 { top: 70%; left: 25%; }
+            .item0 { top: 120%; left: 90%; }
+            .item1 { top: 120%; left: 25%; }
             .item2 { top: 40%; left: 50%; transform: translateX(-50%); }
             .item3 { bottom: 20%; left: 25%; }
             .item4 { bottom: 20%; left: 75%; }
@@ -89,7 +82,7 @@
     <div class="background-image"></div>
 
     <div class="report-container">
-        <div class="report-item item0" id="item0">0000</div>
+        <div class="report-item item0" id="item0">0</div>
         <div class="report-item item1" id="item1">0000</div>
         <div class="report-item item2" id="item2">0000</div>
         <div class="report-item item3" id="item3">0000</div>
@@ -100,10 +93,10 @@
         // Target numbers
         const targetNumbers = {
             item0: 0100,
-            item1: 0050,
-            item2: 0200,
-            item3: 0150,
-            item4: 0125
+            item1: 0002,
+            item2: 0532,
+            item3: 0400,
+            item4: 0900
         };
 
         // Define the order of fields and delay between each
@@ -120,15 +113,6 @@
 
             const element = document.getElementById(elementId);
             element.style.opacity = 1; // Make the number visible
-
-            // Initial blink for item0 (0000)
-            if (elementId === 'item0') {
-                element.classList.add('blink');
-                setTimeout(() => {
-                    element.classList.remove('blink');
-                    element.style.opacity = 1;
-                }, 3000); // Remove blink after 3 seconds
-            }
 
             const counter = setInterval(() => {
                 currentNumber += increment;
@@ -148,10 +132,6 @@
             fieldsOrder.forEach(itemId => {
                 const element = document.getElementById(itemId);
                 element.classList.add('blink');
-                // After blinking, keep the number scaled up slightly
-                setTimeout(() => {
-                    element.style.transform = 'scale(1.2)';
-                }, 3000); // After blinking, scale up
             });
         }
 
