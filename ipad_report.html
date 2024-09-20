@@ -21,8 +21,8 @@
             width: 100%;
             height: 100%;
             background-image: url('https://raw.githubusercontent.com/ahmedline/my-website/main/images/iPad.jpg');
-            background-size: cover; /* يجعل الصورة تغطي الشاشة بالكامل */
-            background-position: center; /* يركز الصورة في منتصف الشاشة */
+            background-size: cover;
+            background-position: center;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -30,33 +30,71 @@
         .number {
             position: absolute;
             color: white;
-            font-size: 4em; /* يمكنك التحكم في حجم الخط هنا */
+            font-size: 4em;
             font-weight: bold;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+            animation: blink 1s infinite; /* تأثير الوميض */
         }
         #interviews {
-            top: 34.5%;  /* الموضع العمودي */
-            left: 30%; /* الموضع الأفقي */
+            top: 34.5%;  
+            left: 30%; 
         }
         #visitors {
-            top: 34.5%;  /* الموضع العمودي */
-            right: 36.5%; /* الموضع الأفقي */
+            top: 34.5%;  
+            right: 36.5%; 
         }
         #males {
-            bottom: 27%;  /* الموضع العمودي */
-            left: 79%; /* الموضع الأفقي */
+            bottom: 27%;  
+            left: 79%; 
         }
         #females {
-            bottom: 27%;  /* الموضع العمودي */
-            right: 36.5%; /* الموضع الأفقي */
+            bottom: 27%;  
+            right: 36.5%; 
+        }
+        #institutions {
+            top: 10%;  /* يمكنك تعديل الموضع */
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="number" id="interviews">300</div>
-        <div class="number" id="visitors">400</div>
-        <div class="number" id="males">600</div>
-        <div class="number" id="females">800</div>
+        <div class="number" id="interviews">0</div>
+        <div class="number" id="visitors">0</div>
+        <div class="number" id="males">0</div>
+        <div class="number" id="females">0</div>
+        <div class="number" id="institutions">0</div>
     </div>
+
+    <script>
+        // وظيفة لتصاعد الأرقام تدريجياً
+        function animateValue(id, start, end, duration) {
+            let range = end - start;
+            let current = start;
+            let increment = end > start ? 1 : -1;
+            let stepTime = Math.abs(Math.floor(duration / range));
+            let obj = document.getElementById(id);
+            let timer = setInterval(function() {
+                current += increment;
+                obj.textContent = current.toString().padStart(4, '0'); // إضافة الأصفار البادئة
+                if (current == end) {
+                    clearInterval(timer);
+                }
+            }, stepTime);
+        }
+
+        // استدعاء الوظيفة لجميع الأرقام
+        animateValue("interviews", 0, 300, 2000);
+        animateValue("visitors", 0, 400, 2000);
+        animateValue("males", 0, 600, 2000);
+        animateValue("females", 0, 800, 2000);
+        animateValue("institutions", 0, 35, 2000);
+    </script>
 </body>
 </html>
