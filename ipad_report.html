@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interactive Report Summary</title>
-    <meta http-equiv="refresh" content="60"> <!-- Auto-refresh after 60 seconds -->
+    <meta http-equiv="refresh" content="60">
     <style>
         body, html {
             margin: 0;
@@ -36,7 +37,7 @@
 
         .report-item {
             position: absolute;
-            font-size: 5vw; /* Responsive font size */
+            font-size: 5vw;
             font-weight: bold;
             color: white;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
@@ -45,10 +46,10 @@
             transition: opacity 0.5s, transform 0.5s;
         }
 
-        /* Positions of the numbers */
+        /* Position of the numbers */
         .item0 { top: 30%; left: 82%; }
         .item1 { top: 30%; left: 32%; }
-        .item2 { top: 30%; right:38.5%; }
+        .item2 { top: 30%; right: 38.5%; }
         .item3 { bottom: 20.5%; left: 81%; }
         .item4 { bottom: 20.5%; right: 39%; }
 
@@ -61,13 +62,18 @@
         }
 
         .blink {
-            animation: blinkScale 1s ease-in-out 3; /* Blink 3 times */
+            animation: blinkScale 1s ease-in-out 10; /* Blink 10 times */
+        }
+
+        .engraved-text {
+            color: #fff;
+            text-shadow: -1px -1px 2px rgba(0,0,0,0.5), 1px 1px 2px rgba(255,255,255,0.3);
         }
 
         /* Media Queries for small screens */
         @media (max-width: 768px) {
             .report-item {
-                font-size: 8vw; /* Larger font size on small screens */
+                font-size: 8vw;
             }
             .item0 { top: 120%; left: 90%; }
             .item1 { top: 120%; left: 25%; }
@@ -82,11 +88,11 @@
     <div class="background-image"></div>
 
     <div class="report-container">
-        <div class="report-item item0" id="item0">0000</div>
-        <div class="report-item item1" id="item1">0000</div>
-        <div class="report-item item2" id="item2">0000</div>
-        <div class="report-item item3" id="item3">0000</div>
-        <div class="report-item item4" id="item4">0000</div>
+        <div class="report-item engraved-text item0" id="item0">0000</div>
+        <div class="report-item engraved-text item1" id="item1">0000</div>
+        <div class="report-item engraved-text item2" id="item2">0000</div>
+        <div class="report-item engraved-text item3" id="item3">0000</div>
+        <div class="report-item engraved-text item4" id="item4">0000</div>
     </div>
 
     <script>
@@ -101,18 +107,18 @@
 
         // Define the order of fields and delay between each
         const fieldsOrder = ['item0', 'item1', 'item2', 'item3', 'item4'];
-        const delayBetweenFields = 5000; // 5000 milliseconds = 5 seconds
+        const delayBetweenFields = 5000;
 
         // Function to animate a single number
         function animateNumber(elementId, targetNumber, callback) {
             let currentNumber = 0;
-            const duration = 2000; // Total duration of the counting animation in milliseconds
-            const interval = 40; // Time between updates in milliseconds
+            const duration = 3000;
+            const interval = 40;
             const totalSteps = duration / interval;
             const increment = Math.ceil(targetNumber / totalSteps);
 
             const element = document.getElementById(elementId);
-            element.style.opacity = 1; // Make the number visible
+            element.style.opacity = 1;
 
             const counter = setInterval(() => {
                 currentNumber += increment;
@@ -140,16 +146,14 @@
             fieldsOrder.forEach((itemId, index) => {
                 setTimeout(() => {
                     animateNumber(itemId, parseInt(targetNumbers[itemId]), () => {
-                        // After the last number has been animated, start blinking
                         if (index === fieldsOrder.length - 1) {
-                            setTimeout(blinkAllNumbers, 1000); // Start blinking after a short delay
+                            setTimeout(blinkAllNumbers, 1000);
                         }
                     });
                 }, index * delayBetweenFields);
             });
         }
 
-        // Start the animation on page load
         window.onload = animateNumbersSequentially;
     </script>
 
