@@ -100,45 +100,48 @@
     <script>
         // الأرقام المستهدفة
         const targetNumbers = {
-            item0: 0000,
-            item1: 0100,
-            item2: 0200,
-            item3: 0300,
-            item4: 0400
+            item0: 100,
+            item1: 100,
+            item2: 200,
+            item3: 300,
+            item4: 400
         };
 
         // ترتيب الحقول والوقت بين كل حقل
         const fieldsOrder = ['item0', 'item1', 'item2', 'item3', 'item4'];
         const delayBetweenFields = 500; // 500 ملي ثانية = 0.5 ثانية
 
-        // دالة لتحريك رقم واحد
+        // دالة لتحريك رقم واحد باستخدام requestAnimationFrame لضمان وصول الرقم إلى القيمة المستهدفة
         function animateNumber(elementId, targetNumber, callback) {
-            let currentNumber = 0;
-            const duration = 2000; // مدة التحريك الكاملة بالمللي ثانية
-            const intervalTime = 50; // الوقت بين كل تحديث بالمللي ثانية
-            const totalSteps = duration / intervalTime;
-            const increment = targetNumber / totalSteps;
-
             const element = document.getElementById(elementId);
-            element.style.opacity = 1; // جعل الرقم مرئي
+            const duration = 2000; // مدة التحريك بالمللي ثانية
+            let startTime = null;
+            let currentNumber = 0;
 
-            const counter = setInterval(() => {
-                currentNumber += increment;
-                if (currentNumber >= targetNumber) {
-                    currentNumber = targetNumber;
-                    clearInterval(counter);
-                    if (callback) {
-                        callback();
-                    }
+            function updateNumber(timestamp) {
+                if (!startTime) startTime = timestamp;
+                const elapsed = timestamp - startTime;
+                const progressRatio = Math.min(elapsed / duration, 1);
+                currentNumber = Math.floor(progressRatio * targetNumber);
+                element.textContent = currentNumber.toString().padStart(4, '0');
+
+                if (elapsed < duration) {
+                    requestAnimationFrame(updateNumber);
+                } else {
+                    element.textContent = targetNumber.toString().padStart(4, '0');
                     // إضافة تأثير الوميض وتكبير الخط بعد الوصول للقيمة المستهدفة
                     element.classList.add('blink-scale');
                     // إزالة الكلاس بعد انتهاء التأثير للسماح بتطبيقه مرة أخرى في المستقبل
                     setTimeout(() => {
                         element.classList.remove('blink-scale');
                     }, 10000); // مدة التأثير نفسها (10 مرات)
+                    if (callback) {
+                        callback();
+                    }
                 }
-                element.textContent = Math.floor(currentNumber).toString().padStart(4, '0');
-            }, intervalTime);
+            }
+
+            requestAnimationFrame(updateNumber);
         }
 
         // دالة لبدء تحريك الأرقام بشكل متسلسل
@@ -147,13 +150,15 @@
                 if (index < fieldsOrder.length) {
                     const itemId = fieldsOrder[index];
                     animateNumber(itemId, targetNumbers[itemId], () => {
-                        animateNextField(index + 1); // ابدأ الرقم التالي بعد انتهاء الحالي
+                        setTimeout(() => {
+                            animateNextField(index + 1);
+                        }, delayBetweenFields);
                     });
                 } else {
                     // بعد الانتهاء من جميع الأرقام، يمكن إضافة أي تأثير إضافي هنا إذا لزم الأمر
                 }
             }
-            animateNextField(0);  // ابدأ بالعنصر الأول
+            animateNextField(0);
         }
 
         // بدء التحريك عند تحميل الصفحة
