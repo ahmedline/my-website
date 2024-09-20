@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Responsive Report Summary</title>
+    <title>Interactive Report Summary</title>
+    <meta http-equiv="refresh" content="60"> <!-- Auto-refresh after 60 seconds -->
     <style>
         body, html {
             margin: 0;
@@ -11,6 +12,7 @@
             width: 100%;
             overflow: hidden;
             position: relative;
+            font-family: Arial, sans-serif;
         }
 
         .background-image {
@@ -34,23 +36,35 @@
 
         .report-item {
             position: absolute;
-            font-size: 5vw; /* حجم الخط نسبي لعرض الشاشة */
+            font-size: 5vw; /* Responsive font size */
             font-weight: bold;
             color: white;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            opacity: 0;
+            transform: rotate(0deg);
+            transition: opacity 0.5s, transform 0.5s;
         }
 
-        /* التحكم في أماكن الأرقام */
+        /* Positions of the numbers */
         .item0 { top: 30%; left: 82%; }
         .item1 { top: 30%; left: 32%; }
         .item2 { top: 30%; right:38.5%; }
         .item3 { bottom: 20.5%; left: 81%; }
         .item4 { bottom: 20.5%; right: 39%; }
 
-        /* Media Queries لتعديل المواقع على الشاشات الصغيرة */
+        /* Blinking effect */
+        @keyframes blinker {
+            50% { opacity: 0; }
+        }
+
+        .blink {
+            animation: blinker 1s linear infinite;
+        }
+
+        /* Media Queries for small screens */
         @media (max-width: 768px) {
             .report-item {
-                font-size: 8vw; /* تكبير حجم الخط على الشاشات الصغيرة */
+                font-size: 8vw; /* Larger font size on small screens */
             }
             .item0 { top: 25%; left: 75%; }
             .item1 { top: 25%; left: 25%; }
@@ -65,12 +79,61 @@
     <div class="background-image"></div>
 
     <div class="report-container">
-        <div class="report-item item0">0045</div>
-        <div class="report-item item1">0002</div>
-        <div class="report-item item2">0532</div>
-        <div class="report-item item3">0400</div>
-        <div class="report-item item4">0900</div>
+        <div class="report-item item0" id="item0">0000</div>
+        <div class="report-item item1" id="item1">0000</div>
+        <div class="report-item item2" id="item2">0000</div>
+        <div class="report-item item3" id="item3">0000</div>
+        <div class="report-item item4" id="item4">0000</div>
     </div>
+
+    <script>
+        // Target numbers
+        const targetNumbers = {
+            item0: "0045",
+            item1: "0002",
+            item2: "0532",
+            item3: "0400",
+            item4: "0900"
+        };
+
+        // Function to animate numbers
+        function animateNumber(elementId, targetNumber) {
+            let currentNumber = 0;
+            const duration = 2000; // Duration of the animation in milliseconds
+            const interval = 50; // Time between updates in milliseconds
+            const increment = Math.ceil(targetNumber / (duration / interval));
+
+            const element = document.getElementById(elementId);
+            element.style.opacity = 1; // Make the number visible
+
+            const counter = setInterval(() => {
+                currentNumber += increment;
+                if (currentNumber >= targetNumber) {
+                    currentNumber = targetNumber;
+                    clearInterval(counter);
+                    // Add blinking and rotating effect after reaching the target number
+                    element.classList.add('blink');
+                    element.style.transform = 'rotate(360deg)';
+                }
+                element.textContent = currentNumber.toString().padStart(4, '0');
+            }, interval);
+        }
+
+        // Animate numbers with delay between them
+        function animateNumbersSequentially() {
+            const items = ['item0', 'item1', 'item2', 'item3', 'item4'];
+            let delay = 0;
+            items.forEach((itemId) => {
+                setTimeout(() => {
+                    animateNumber(itemId, parseInt(targetNumbers[itemId]));
+                }, delay);
+                delay += 500; // Delay between animations (0.5 seconds)
+            });
+        }
+
+        // Start the animation on page load
+        window.onload = animateNumbersSequentially;
+    </script>
 
 </body>
 </html>
