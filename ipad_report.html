@@ -35,8 +35,9 @@
             text-shadow: 2px 2px 10px rgba(255, 255, 255, 0.7);
             width: 8ch;
             text-align: center;
-            transition: transform 0.5s ease;
-            animation: scaleAndBlink 2s infinite; /* تأثير الوميض والتكبير */
+            transition: transform 0.8s ease;
+            animation: scaleAndBlink 5s 3; /* تأثير الوميض والتكبير، يتكرر 6 مرات فقط */
+            animation-fill-mode: forwards; /* تثبيت الوضع النهائي بعد الأنيميشن */
         }
         @keyframes scaleAndBlink {
             0% { transform: scale(1); opacity: 1; }
@@ -61,7 +62,7 @@
         }
         #institutions {
             top: 34.5%;  
-            left: 83%;
+            left: 71%;
             transform: translateX(-50%);
         }
         .clock {
@@ -124,23 +125,23 @@
 
         // استدعاء الوظيفة لجميع الأرقام مع فاصل زمني
         setTimeout(function() {
-            animateValue("institutions", 0, 36, 2000); 
+            animateValue("institutions", 0, 39, 2000); 
         }, 0);
 
         setTimeout(function() {
-            animateValue("interviews", 0, 3000, 2000); 
+            animateValue("interviews", 0, 780, 2000); 
         }, 3000);
 
         setTimeout(function() {
-            animateValue("visitors", 0, 1, 2000); 
+            animateValue("visitors", 0, 500, 2000); 
         }, 1000);
 
         setTimeout(function() {
-            animateValue("males", 0, 11, 2000); 
+            animateValue("males", 0, 200, 2000); 
         }, 2050);
 
         setTimeout(function() {
-            animateValue("females", 0, 112, 2000); 
+            animateValue("females", 0, 300, 2000); 
         }, 2000);
 
         // تحديث الساعة الرقمية
