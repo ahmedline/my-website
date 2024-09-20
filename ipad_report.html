@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Report</title>
+    <title>Interactive Report Summary</title>
+    <meta http-equiv="refresh" content="60">
     <style>
         body, html {
             margin: 0;
@@ -13,74 +14,148 @@
             overflow: hidden;
             position: relative;
             font-family: Arial, sans-serif;
-            background-color: #333;
+        }
+
+        .background-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://raw.githubusercontent.com/ahmedline/my-website/main/images/iPad.jpg');
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
         }
 
         .report-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             position: relative;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
         }
 
         .report-item {
-            font-size: 10vw;
+            position: absolute;
+            font-size: 5vw;
             font-weight: bold;
             color: white;
-            text-shadow: -2px -2px 4px rgba(0, 0, 0, 0.7), 2px 2px 4px rgba(255, 255, 255, 0.2);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
             opacity: 0;
-            transition: opacity 1s, transform 1s;
+            transform: scale(1);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+
+        /* Position of the numbers */
+        .item0 { top: 30%; left: 82%; }
+        .item1 { top: 30%; left: 32%; }
+        .item2 { top: 30%; right: 38.5%; }
+        .item3 { bottom: 20.5%; left: 81%; }
+        .item4 { bottom: 20.5%; right: 39%; }
+
+        /* Blinking and scaling effect */
+        @keyframes blinkScale {
+            0% { opacity: 1; transform: scale(1); }
+            33% { opacity: 0; transform: scale(1.2); }
+            66% { opacity: 0; transform: scale(1.2); }
+            100% { opacity: 1; transform: scale(1); }
         }
 
         .blink {
-            animation: blinkEffect 1s ease-in-out 10;
+            animation: blinkScale 1s ease-in-out 10; /* Blink 10 times */
         }
 
-        @keyframes blinkEffect {
-            0% { opacity: 1; }
-            50% { opacity: 0; }
-            100% { opacity: 1; }
+        .engraved-text {
+            color: #fff;
+            text-shadow: -1px -1px 2px rgba(0,0,0,0.5), 1px 1px 2px rgba(255,255,255,0.3);
+        }
+
+        /* Media Queries for small screens */
+        @media (max-width: 768px) {
+            .report-item {
+                font-size: 8vw;
+            }
+            .item0 { top: 120%; left: 90%; }
+            .item1 { top: 120%; left: 25%; }
+            .item2 { top: 40%; left: 50%; transform: translateX(-50%); }
+            .item3 { bottom: 20%; left: 25%; }
+            .item4 { bottom: 20%; left: 75%; }
         }
     </style>
 </head>
 <body>
 
-<div class="report-container">
-    <div class="report-item" id="item0">0000</div>
-</div>
+    <div class="background-image"></div>
 
-<script>
-    const targetNumber = 0100;  // عدد المؤسسات
-    const duration = 3000;  // مدة العد 3 ثوانٍ
-    const element = document.getElementById('item0');
+    <div class="report-container">
+        <div class="report-item engraved-text item0" id="item0">0000</div>
+        <div class="report-item engraved-text item1" id="item1">0000</div>
+        <div class="report-item engraved-text item2" id="item2">0000</div>
+        <div class="report-item engraved-text item3" id="item3">0000</div>
+        <div class="report-item engraved-text item4" id="item4">0000</div>
+    </div>
 
-    function animateNumber(element, targetNumber, duration) {
-        let startTime = null;
+    <script>
+        // Target numbers
+        const targetNumbers = {
+            item0: 0100,
+            item1: 0002,
+            item2: 0532,
+            item3: 0800,
+            item4: 0900
+        };
 
-        function step(timestamp) {
-            if (!startTime) startTime = timestamp;
-            const progress = timestamp - startTime;
-            const current = Math.min(Math.floor((progress / duration) * targetNumber), targetNumber);
+        // Define the order of fields and delay between each
+        const fieldsOrder = ['item0', 'item1', 'item2', 'item3', 'item4'];
+        const delayBetweenFields = 5000;
 
-            element.textContent = current.toString().padStart(4, '0');
+        // Function to animate a single number
+        function animateNumber(elementId, targetNumber, callback) {
+            let currentNumber = 0;
+            const duration = 3000;
+            const interval = 40;
+            const totalSteps = duration / interval;
+            const increment = Math.ceil(targetNumber / totalSteps);
 
-            if (current < targetNumber) {
-                window.requestAnimationFrame(step);
-            } else {
-                element.classList.add('blink');  // إضافة تأثير الوميض بعد الوصول للرقم النهائي
-            }
+            const element = document.getElementById(elementId);
+            element.style.opacity = 1;
+
+            const counter = setInterval(() => {
+                currentNumber += increment;
+                if (currentNumber >= targetNumber) {
+                    currentNumber = targetNumber;
+                    clearInterval(counter);
+                    if (callback) {
+                        callback();
+                    }
+                }
+                element.textContent = currentNumber.toString().padStart(4, '0');
+            }, interval);
         }
 
-        window.requestAnimationFrame(step);
-        element.style.opacity = 1;
-    }
+        // Function to start blinking all numbers
+        function blinkAllNumbers() {
+            fieldsOrder.forEach(itemId => {
+                const element = document.getElementById(itemId);
+                element.classList.add('blink');
+            });
+        }
 
-    window.onload = function() {
-        animateNumber(element, targetNumber, duration);
-    }
-</script>
+        // Function to animate numbers sequentially
+        function animateNumbersSequentially() {
+            fieldsOrder.forEach((itemId, index) => {
+                setTimeout(() => {
+                    animateNumber(itemId, parseInt(targetNumbers[itemId]), () => {
+                        if (index === fieldsOrder.length - 1) {
+                            setTimeout(blinkAllNumbers, 1000);
+                        }
+                    });
+                }, index * delayBetweenFields);
+            });
+        }
+
+        window.onload = animateNumbersSequentially;
+    </script>
 
 </body>
 </html>
-    
