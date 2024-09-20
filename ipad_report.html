@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interactive Report Summary</title>
-    <meta http-equiv="refresh" content="60">
+    <meta http-equiv="refresh" content="60"> <!-- تحديث تلقائي بعد 60 ثانية -->
     <style>
         body, html {
             margin: 0;
@@ -37,43 +36,37 @@
 
         .report-item {
             position: absolute;
-            font-size: 5vw;
+            font-size: 5vw; /* حجم خط متجاوب */
             font-weight: bold;
             color: white;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            text-shadow: -1px -1px 2px rgba(0,0,0,0.5), 1px 1px 2px rgba(255,255,255,0.3); /* تأثير نحت */
             opacity: 0;
             transform: scale(1);
             transition: opacity 0.5s, transform 0.5s;
         }
 
-        /* Position of the numbers */
+        /* مواقع الأرقام */
         .item0 { top: 30%; left: 82%; }
         .item1 { top: 30%; left: 32%; }
         .item2 { top: 30%; right: 38.5%; }
         .item3 { bottom: 20.5%; left: 81%; }
         .item4 { bottom: 20.5%; right: 39%; }
 
-        /* Blinking and scaling effect */
+        /* تأثير وميض */
         @keyframes blinkScale {
             0% { opacity: 1; transform: scale(1); }
-            33% { opacity: 0; transform: scale(1.2); }
-            66% { opacity: 0; transform: scale(1.2); }
+            50% { opacity: 0; transform: scale(1.1); }
             100% { opacity: 1; transform: scale(1); }
         }
 
         .blink {
-            animation: blinkScale 1s ease-in-out 10; /* Blink 10 times */
+            animation: blinkScale 0.5s ease-in-out 10; /* وميض 10 مرات */
         }
 
-        .engraved-text {
-            color: #fff;
-            text-shadow: -1px -1px 2px rgba(0,0,0,0.5), 1px 1px 2px rgba(255,255,255,0.3);
-        }
-
-        /* Media Queries for small screens */
+        /* Media Queries للشاشات الصغيرة */
         @media (max-width: 768px) {
             .report-item {
-                font-size: 8vw;
+                font-size: 8vw; /* حجم خط أكبر على الشاشات الصغيرة */
             }
             .item0 { top: 120%; left: 90%; }
             .item1 { top: 120%; left: 25%; }
@@ -88,15 +81,15 @@
     <div class="background-image"></div>
 
     <div class="report-container">
-        <div class="report-item engraved-text item0" id="item0">0000</div>
-        <div class="report-item engraved-text item1" id="item1">0000</div>
-        <div class="report-item engraved-text item2" id="item2">0000</div>
-        <div class="report-item engraved-text item3" id="item3">0000</div>
-        <div class="report-item engraved-text item4" id="item4">0000</div>
+        <div class="report-item item0" id="item0">0000</div>
+        <div class="report-item item1" id="item1">0000</div>
+        <div class="report-item item2" id="item2">0000</div>
+        <div class="report-item item3" id="item3">0000</div>
+        <div class="report-item item4" id="item4">0000</div>
     </div>
 
     <script>
-        // Target numbers
+        // الأرقام المستهدفة
         const targetNumbers = {
             item0: 0100,
             item1: 0002,
@@ -105,20 +98,20 @@
             item4: 0900
         };
 
-        // Define the order of fields and delay between each
+        // ترتيب الحقول والوقت بين كل حقل
         const fieldsOrder = ['item0', 'item1', 'item2', 'item3', 'item4'];
-        const delayBetweenFields = 5000;
+        const delayBetweenFields = 5000; // 5000 ملي ثانية = 5 ثواني
 
-        // Function to animate a single number
+        // دالة لتحريك رقم واحد
         function animateNumber(elementId, targetNumber, callback) {
             let currentNumber = 0;
-            const duration = 3000;
-            const interval = 40;
+            const duration = 3000; // مدة التحريك الكاملة بالمللي ثانية
+            const interval = 40; // الوقت بين التحديثات بالمللي ثانية
             const totalSteps = duration / interval;
             const increment = Math.ceil(targetNumber / totalSteps);
 
             const element = document.getElementById(elementId);
-            element.style.opacity = 1;
+            element.style.opacity = 1; // جعل الرقم مرئي
 
             const counter = setInterval(() => {
                 currentNumber += increment;
@@ -133,7 +126,7 @@
             }, interval);
         }
 
-        // Function to start blinking all numbers
+        // دالة لبدء وميض الأرقام
         function blinkAllNumbers() {
             fieldsOrder.forEach(itemId => {
                 const element = document.getElementById(itemId);
@@ -141,19 +134,20 @@
             });
         }
 
-        // Function to animate numbers sequentially
+        // دالة لتحريك الأرقام بشكل متسلسل
         function animateNumbersSequentially() {
             fieldsOrder.forEach((itemId, index) => {
                 setTimeout(() => {
                     animateNumber(itemId, parseInt(targetNumbers[itemId]), () => {
                         if (index === fieldsOrder.length - 1) {
-                            setTimeout(blinkAllNumbers, 1000);
+                            setTimeout(blinkAllNumbers, 1000); // بدء الوميض بعد تأخير قصير
                         }
                     });
                 }, index * delayBetweenFields);
             });
         }
 
+        // بدء التحريك عند تحميل الصفحة
         window.onload = animateNumbersSequentially;
     </script>
 
