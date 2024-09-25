@@ -34,16 +34,85 @@
                 font-weight: bold;
                 text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
             }
+            @keyframes scaleAndBlink {
+                0% { 
+                    transform: scale(1); 
+                    opacity: 1; 
+                    color: white;
+                }
+                50% { 
+                    transform: scale(1.2); 
+                    opacity: 0.8; 
+                    color: #e0ddd7;
+                } 
+                100% { 
+                    transform: scale(1); 
+                    opacity: 1; 
+                    color: white;
+                }
+            }
+            .number {
+                animation: scaleAndBlink 2s 5;
+                animation-fill-mode: forwards;
+            }
         </style>
     </head>
     <body>
         <div class="container">
-            <div class="field">Number of Institutions: 26</div>
-            <div class="field">Number of Visitors: 1</div>
-            <div class="field">Number of Males: 0</div>
-            <div class="field">Number of Females: 1</div>
-            <div class="field">Number of Interviews: 1</div>
+            <div class="field number" id="institutions">--</div>
+            <div class="field number" id="visitors">--</div>
+            <div class="field number" id="males">--</div>
+            <div class="field number" id="females">--</div>
+            <div class="field number" id="interviews">--</div>
         </div>
+
+        <script>
+            // Function to increment numbers gradually
+            function animateValue(id, start, end, duration) {
+                if (end === 0 || isNaN(end)) {
+                    document.getElementById(id).textContent = '0';
+                    return;
+                }
+                let range = end - start;
+                let current = start;
+                let increment = end > start ? 1 : -1;
+                let stepTime = Math.abs(Math.floor(duration / range));
+                let obj = document.getElementById(id);
+                let timer = setInterval(function() {
+                    current += increment;
+                    obj.textContent = current.toString();
+                    if (current == end) {
+                        clearInterval(timer);
+                    }
+                }, stepTime);
+            }
+
+            // Animate the values after the page loads
+            setTimeout(function() {
+                animateValue("institutions", 0, 26, 2000);
+            }, 1000);
+
+            setTimeout(function() {
+                animateValue("visitors", 0, 1, 2000);
+            }, 2000);
+
+            setTimeout(function() {
+                animateValue("males", 0, 0, 2000);
+            }, 3000);
+
+            setTimeout(function() {
+                animateValue("females", 0, 1, 2000);
+            }, 4000);
+
+            setTimeout(function() {
+                animateValue("interviews", 0, 1, 2000);
+            }, 5000);
+
+            // Refresh the page every 5 minutes (300,000 milliseconds)
+            setTimeout(function() {
+                window.location.reload();
+            }, 300000);  // 5 minutes
+        </script>
     </body>
     </html>
     
