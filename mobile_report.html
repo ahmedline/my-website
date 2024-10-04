@@ -23,14 +23,14 @@
                 text-align: center;
             }
             .container {
-                width: 90%;
-                max-width: 400px;
+                width: 100%;
+                max-width: 600px; /* توسيع الجدول */
                 text-align: center;
                 background: none; /* بدون خلفية خلف الأرقام */
                 margin-top: 20px;
             }
             h1 {
-                font-size: 2em;
+                font-size: 2.2em;
                 color: #0b5871; /* لون العنوان */
                 margin-bottom: 20px;
             }
@@ -43,11 +43,12 @@
                 width: 100%;
                 border-collapse: collapse;
                 margin-top: 20px;
-                font-size: 1em;
+                font-size: 1.2em;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* تأثير الظل على الجدول */
             }
             th, td {
                 border: 1px solid #dddddd;
-                padding: 8px;
+                padding: 10px;
                 text-align: center;
             }
             th {
@@ -59,7 +60,7 @@
                 background-color: #f2f2f2;
             }
             .number {
-                font-size: 1.2em;
+                font-size: 1.5em;
                 color: #0b5871; /* لون الأرقام */
                 animation: blink 1.5s infinite; /* تأثير الوميض */
             }
@@ -75,7 +76,7 @@
                 width: 100%;
                 background-color: #0b5871;
                 color: white;
-                font-size: 1em;
+                font-size: 1.1em;
                 padding: 10px;
                 box-sizing: border-box;
                 white-space: nowrap;
@@ -83,15 +84,14 @@
             }
             .ticker-content {
                 display: inline-block;
-                padding-left: 100%;
                 animation: ticker 15s linear infinite;
             }
             @keyframes ticker {
                 0% {
-                    transform: translateX(100%);
+                    transform: translateX(-100%);
                 }
                 100% {
-                    transform: translateX(-100%);
+                    transform: translateX(100%);
                 }
             }
         </style>
