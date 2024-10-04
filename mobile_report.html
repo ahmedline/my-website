@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>EIF-Report Ethraa</title>
+        <title>تقرير الجوال</title>
         <style>
             body, html {
                 margin: 0;
@@ -72,7 +72,7 @@
                 50% { opacity: 0.5; }
                 100% { opacity: 1; }
             }
-            /* شريط متحرك */
+            /* شريط متحرك مستمر */
             .ticker {
                 position: fixed;
                 bottom: 0;
@@ -87,17 +87,18 @@
             }
             .ticker-content {
                 display: inline-block;
-                animation: ticker 180s linear infinite; /* إبطاء الشريط */
-                direction: ltr; /* الحركة من اليسار إلى اليمين */
+                padding-left: 100%; /* يبدأ من خارج الشاشة */
+                animation: ticker 60s linear infinite; /* الحركة مستمرة بدون توقف */
             }
             @keyframes ticker {
                 0% {
-                    transform: translateX(-100%);
-                }
-                100% {
                     transform: translateX(100%);
                 }
+                100% {
+                    transform: translateX(-100%); /* تحرك النص من اليمين إلى اليسار */
+                }
             }
+            /* تباعد بين الأخبار والإحصائيات */
             .ticker-content span {
                 padding-right: 40px;
             }
@@ -151,6 +152,7 @@
         </div>
 
         <script>
+            // Function to increment numbers gradually
             function animateValue(id, start, end, duration) {
                 let range = end - start;
                 let current = start;
@@ -166,12 +168,14 @@
                 }, stepTime);
             }
 
+            // Invoke animateValue for each number
             animateValue("institutions", 0, 106, 4000);
             animateValue("visitors", 0, 59, 4000);
             animateValue("males", 0, 10, 4000);
             animateValue("females", 0, 49, 4000);
             animateValue("interviews", 0, 224, 4000);
 
+            // Function to update the clock
             function updateClock() {
                 var now = new Date();
                 var hours = now.getHours().toString().padStart(2, '0');
