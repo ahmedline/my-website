@@ -6,19 +6,80 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Mobile Report</title>
         <style>
-            body, html { margin: 0; padding: 0; font-family: Arial, sans-serif; height: 100%; background-image: url('https://ahmedline.github.io/my-website/images/Phone.jpg'); background-size: cover; display: flex; justify-content: center; align-items: center; text-align: center; }
-            .container { width: 90%; max-width: 400px; padding: 15px; background-color: rgba(255, 255, 255, 0.8); border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); text-align: center; }
-            .field { margin-bottom: 15px; font-size: 1.5em; font-weight: bold; color: black; text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.7); }
+            body, html {
+                margin: 0;
+                padding: 0;
+                font-family: Arial, sans-serif;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-image: url('https://ahmedline.github.io/my-website/images/Phone.jpg'); /* خلفية ثابتة */
+                background-size: cover;
+                background-position: center;
+                background-attachment: fixed;
+                color: black;
+                text-align: center;
+            }
+            .container {
+                width: 90%;
+                max-width: 400px;
+                padding: 15px;
+                text-align: center;
+                border-radius: 10px;
+                background: none; /* بدون خلفية خلف الأرقام */
+            }
+            .field {
+                margin-bottom: 15px;
+                font-size: 1.8em;
+                font-weight: bold;
+                color: white; /* نص واضح على الخلفية */
+                transition: all 0.5s ease;  /* تأثير حركة سلسة */
+            }
+            .number {
+                transition: all 1s ease-in-out; /* تأثير حركة تدريجية على الأرقام */
+                font-size: 2em;
+                color: #ffd700; /* لون الأرقام الذهبي */
+            }
         </style>
     </head>
     <body>
         <div class="container">
-            <div class="field">عدد المؤسسات: 30</div>
-            <div class="field">عدد الزوار: 59</div>
-            <div class="field">عدد الذكور: 10</div>
-            <div class="field">عدد الإناث: 49</div>
-            <div class="field">عدد المقابلات: 224</div>
+            <div class="field">عدد المؤسسات: <span class="number" id="institutions">--</span></div>
+            <div class="field">عدد الزوار: <span class="number" id="visitors">--</span></div>
+            <div class="field">عدد الذكور: <span class="number" id="males">--</span></div>
+            <div class="field">عدد الإناث: <span class="number" id="females">--</span></div>
+            <div class="field">عدد المقابلات: <span class="number" id="interviews">--</span></div>
         </div>
+
+        <script>
+            // Function to increment numbers gradually
+            function animateValue(id, start, end, duration) {
+                if (end === 0 || isNaN(end)) {
+                    document.getElementById(id).textContent = '0';
+                    return;
+                }
+                let range = end - start;
+                let current = start;
+                let increment = end > start ? 1 : -1;
+                let stepTime = Math.abs(Math.floor(duration / range));
+                let obj = document.getElementById(id);
+                let timer = setInterval(function() {
+                    current += increment;
+                    obj.textContent = current;
+                    if (current === end) {
+                        clearInterval(timer);
+                    }
+                }, stepTime);
+            }
+
+            // Invoke animateValue for each number
+            animateValue("institutions", 0, 30, 2000);
+            animateValue("visitors", 0, 59, 2000);
+            animateValue("males", 0, 10, 2000);
+            animateValue("females", 0, 49, 2000);
+            animateValue("interviews", 0, 224, 2000);
+        </script>
     </body>
     </html>
     
