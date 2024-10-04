@@ -21,7 +21,7 @@
                 background-attachment: fixed;
                 color: black;
                 text-align: center;
-                direction: rtl; /* من اليمين إلى اليسار */
+                direction: rtl; /* النص من اليمين إلى اليسار */
             }
             .container {
                 width: 100%;
@@ -88,14 +88,14 @@
             .ticker-content {
                 display: inline-block;
                 animation: ticker 60s linear infinite; /* إبطاء الشريط */
-                direction: rtl; /* الحركة من اليمين إلى اليسار */
+                direction: ltr; /* الحركة من اليسار إلى اليمين */
             }
             @keyframes ticker {
                 0% {
-                    transform: translateX(100%); /* يبدأ من اليمين */
+                    transform: translateX(-100%); /* يبدأ من اليسار */
                 }
                 100% {
-                    transform: translateX(-100%); /* ينتهي في اليسار */
+                    transform: translateX(100%); /* ينتهي في اليمين */
                 }
             }
             /* تباعد بين الأخبار والإحصائيات */
