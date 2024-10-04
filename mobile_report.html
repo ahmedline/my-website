@@ -157,10 +157,6 @@
         <script>
             // Function to increment numbers gradually
             function animateValue(id, start, end, duration) {
-                if (end === 0 || isNaN(end)) {
-                    document.getElementById(id).textContent = '0';
-                    return;
-                }
                 let range = end - start;
                 let current = start;
                 let increment = end > start ? 1 : -1;
@@ -176,11 +172,11 @@
             }
 
             // Invoke animateValue for each number
-            animateValue("institutions", 0, 30, 2000);
-            animateValue("visitors", 0, 59, 2000);
-            animateValue("males", 0, 10, 2000);
-            animateValue("females", 0, 49, 2000);
-            animateValue("interviews", 0, 224, 2000);
+            animateValue("institutions", 0, 30, 4000); // Increased duration for smooth transition
+            animateValue("visitors", 0, 59, 4000);
+            animateValue("males", 0, 10, 4000);
+            animateValue("females", 0, 49, 4000);
+            animateValue("interviews", 0, 224, 4000);
 
             // Function to update the clock
             function updateClock() {
