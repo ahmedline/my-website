@@ -88,20 +88,20 @@
             .ticker-content {
                 display: inline-block;
                 animation: ticker 180s linear infinite; /* إبطاء الشريط */
-                direction: rtl; /* الحركة من اليمين إلى اليسار */
+                direction: ltr; /* الحركة من اليسار إلى اليمين */
                 animation-delay: 0s; /* بداية فورية للشريط */
             }
             @keyframes ticker {
                 0% {
-                    transform: translateX(100%); /* يبدأ من اليمين */
+                    transform: translateX(-100%); /* يبدأ من اليسار */
                 }
                 100% {
-                    transform: translateX(-100%); /* ينتهي في اليسار */
+                    transform: translateX(100%); /* ينتهي في اليمين */
                 }
             }
             /* تباعد بين الأخبار والإحصائيات */
             .ticker-content span {
-                padding-left: 40px; /* تباعد أكبر بين النصوص */
+                padding-right: 40px; /* تباعد أكبر بين النصوص */
             }
         </style>
     </head>
