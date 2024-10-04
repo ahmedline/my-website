@@ -26,25 +26,27 @@
                 width: 100%;
                 max-width: 600px; /* توسيع الجدول */
                 text-align: center;
-                background: none; /* بدون خلفية خلف الأرقام */
-                margin-top: 20px;
+                background: none;
+                margin-top: 10px;
             }
             h1 {
-                font-size: 2.2em;
-                color: #0b5871; /* لون العنوان */
-                margin-bottom: 20px;
+                font-size: 1.8em; /* تصغير العنوان قليلاً */
+                color: #0b5871;
+                margin-bottom: 15px;
+                position: relative;
+                top: 10px; /* تحريك العنوان إلى الأسفل قليلاً */
             }
             .clock {
                 font-size: 1.2em;
                 color: #000000;
-                margin-bottom: 15px;
+                margin-bottom: 10px;
             }
             table {
                 width: 100%;
                 border-collapse: collapse;
                 margin-top: 20px;
                 font-size: 1.2em;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* تأثير الظل على الجدول */
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             }
             th, td {
                 border: 1px solid #dddddd;
@@ -52,7 +54,7 @@
                 text-align: center;
             }
             th {
-                background-color: #0b5871; /* لون رأس الجدول */
+                background-color: #0b5871;
                 color: white;
                 font-weight: bold;
             }
@@ -61,8 +63,8 @@
             }
             .number {
                 font-size: 1.5em;
-                color: #0b5871; /* لون الأرقام */
-                animation: blink 1.5s infinite; /* تأثير الوميض */
+                color: #0b5871;
+                animation: blink 1.5s infinite;
             }
             @keyframes blink {
                 0% { opacity: 1; }
@@ -93,6 +95,10 @@
                 100% {
                     transform: translateX(100%);
                 }
+            }
+            /* تباعد بين الأخبار والإحصائيات */
+            .ticker-content span {
+                padding-right: 40px; /* تباعد أكبر بين النصوص */
             }
         </style>
     </head>
@@ -131,10 +137,17 @@
             </table>
         </div>
 
-        <!-- شريط متحرك لعرض الأرقام -->
+        <!-- شريط متحرك لعرض الأرقام والنصوص المتغيرة -->
         <div class="ticker">
             <div class="ticker-content">
-                المؤسسات: 30 | الزوار: 59 | الذكور: 10 | الإناث: 49 | المقابلات: 224
+                <span>المؤسسات: 30</span>
+                <span>الزوار: 59</span>
+                <span>الذكور: 10</span>
+                <span>الإناث: 49</span>
+                <span>المقابلات: 224</span>
+                <span>يفتتح معهد الإمارات المالي معرض التوظيف!</span> <!-- نص إخباري متغير -->
+                <span>حضور قوي من المؤسسات المالية الكبرى.</span> <!-- نص إخباري متغير -->
+                <span>نشاطات توظيف عديدة وعروض مميزة.</span> <!-- نص إخباري متغير -->
             </div>
         </div>
 
