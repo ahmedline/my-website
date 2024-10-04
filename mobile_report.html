@@ -12,6 +12,7 @@
                 font-family: Arial, sans-serif;
                 height: 100%;
                 display: flex;
+                flex-direction: column;
                 justify-content: center;
                 align-items: center;
                 background-image: url('https://ahmedline.github.io/my-website/images/Phone.jpg'); /* خلفية ثابتة */
@@ -24,22 +25,42 @@
             .container {
                 width: 90%;
                 max-width: 400px;
-                padding: 15px;
                 text-align: center;
-                border-radius: 10px;
                 background: none; /* بدون خلفية خلف الأرقام */
+                margin-top: 20px;
             }
-            .field {
+            h1 {
+                font-size: 2em;
+                color: #0b5871; /* لون العنوان */
+                margin-bottom: 20px;
+            }
+            .clock {
+                font-size: 1.2em;
+                color: #000000;
                 margin-bottom: 15px;
-                font-size: 1em; /* حجم النص أصغر قليلاً */
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 20px;
+                font-size: 1em;
+            }
+            th, td {
+                border: 1px solid #dddddd;
+                padding: 8px;
+                text-align: center;
+            }
+            th {
+                background-color: #0b5871; /* لون رأس الجدول */
+                color: white;
                 font-weight: bold;
-                color: #000000; /* نص واضح على الخلفية */
-                transition: all 0.5s ease;  /* تأثير حركة سلسة */
+            }
+            tr:nth-child(even) {
+                background-color: #f2f2f2;
             }
             .number {
-                transition: all 1s ease-in-out; /* تأثير حركة تدريجية على الأرقام */
-                font-size: 1.em; /* جعل حجم الأرقام أصغر */
-                color: #0b5871; /* لون الأرقام الذي طلبته */
+                font-size: 1.2em;
+                color: #0b5871; /* لون الأرقام */
                 animation: blink 1.5s infinite; /* تأثير الوميض */
             }
             @keyframes blink {
@@ -50,13 +71,38 @@
         </style>
     </head>
     <body>
+
+        <h1>التقرير المباشر</h1> <!-- العنوان في المنتصف -->
+
+        <div class="clock" id="clock">--:--:--</div> <!-- الساعة الرقمية -->
+
         <div class="container">
-        <div class="field">التقرير المباشر-</span></div>
-            <div class="field">عدد المؤسسات: <span class="number" id="institutions">--</span></div>
-            <div class="field">عدد الزوار: <span class="number" id="visitors">--</span></div>
-            <div class="field">عدد الذكور: <span class="number" id="males">--</span></div>
-            <div class="field">عدد الإناث: <span class="number" id="females">--</span></div>
-            <div class="field">عدد المقابلات: <span class="number" id="interviews">--</span></div>
+            <table>
+                <tr>
+                    <th>الفئة</th>
+                    <th>العدد</th>
+                </tr>
+                <tr>
+                    <td>عدد المؤسسات</td>
+                    <td class="number" id="institutions">--</td>
+                </tr>
+                <tr>
+                    <td>عدد الزوار</td>
+                    <td class="number" id="visitors">--</td>
+                </tr>
+                <tr>
+                    <td>عدد الذكور</td>
+                    <td class="number" id="males">--</td>
+                </tr>
+                <tr>
+                    <td>عدد الإناث</td>
+                    <td class="number" id="females">--</td>
+                </tr>
+                <tr>
+                    <td>عدد المقابلات</td>
+                    <td class="number" id="interviews">--</td>
+                </tr>
+            </table>
         </div>
 
         <script>
@@ -86,6 +132,17 @@
             animateValue("males", 0, 10, 2000);
             animateValue("females", 0, 49, 2000);
             animateValue("interviews", 0, 224, 2000);
+
+            // Function to update the clock
+            function updateClock() {
+                var now = new Date();
+                var hours = now.getHours().toString().padStart(2, '0');
+                var minutes = now.getMinutes().toString().padStart(2, '0');
+                var seconds = now.getSeconds().toString().padStart(2, '0');
+                document.getElementById('clock').textContent = hours + ':' + minutes + ':' + seconds;
+            }
+            setInterval(updateClock, 1000);  // Update the clock every second
+
         </script>
     </body>
     </html>
