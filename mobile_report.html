@@ -31,15 +31,21 @@
             }
             .field {
                 margin-bottom: 15px;
-                font-size: 1.8em;
+                font-size: 1.5em; /* حجم النص أصغر قليلاً */
                 font-weight: bold;
                 color: white; /* نص واضح على الخلفية */
                 transition: all 0.5s ease;  /* تأثير حركة سلسة */
             }
             .number {
                 transition: all 1s ease-in-out; /* تأثير حركة تدريجية على الأرقام */
-                font-size: 2em;
-                color: #ffd700; /* لون الأرقام الذهبي */
+                font-size: 1.8em; /* جعل حجم الأرقام أصغر */
+                color: #0b5871; /* لون الأرقام الذي طلبته */
+                animation: blink 1.5s infinite; /* تأثير الوميض */
+            }
+            @keyframes blink {
+                0% { opacity: 1; }
+                50% { opacity: 0.5; }
+                100% { opacity: 1; }
             }
         </style>
     </head>
