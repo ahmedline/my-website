@@ -68,6 +68,32 @@
                 50% { opacity: 0.5; }
                 100% { opacity: 1; }
             }
+            /* شريط متحرك */
+            .ticker {
+                position: fixed;
+                bottom: 0;
+                width: 100%;
+                background-color: #0b5871;
+                color: white;
+                font-size: 1em;
+                padding: 10px;
+                box-sizing: border-box;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+            .ticker-content {
+                display: inline-block;
+                padding-left: 100%;
+                animation: ticker 15s linear infinite;
+            }
+            @keyframes ticker {
+                0% {
+                    transform: translateX(100%);
+                }
+                100% {
+                    transform: translateX(-100%);
+                }
+            }
         </style>
     </head>
     <body>
@@ -79,30 +105,37 @@
         <div class="container">
             <table>
                 <tr>
-                    <th>الفئة</th>
                     <th>العدد</th>
+                    <th>الفئة</th>
                 </tr>
                 <tr>
-                    <td>عدد المؤسسات</td>
                     <td class="number" id="institutions">--</td>
+                    <td>عدد المؤسسات</td>
                 </tr>
                 <tr>
-                    <td>عدد الزوار</td>
                     <td class="number" id="visitors">--</td>
+                    <td>عدد الزوار</td>
                 </tr>
                 <tr>
-                    <td>عدد الذكور</td>
                     <td class="number" id="males">--</td>
+                    <td>عدد الذكور</td>
                 </tr>
                 <tr>
-                    <td>عدد الإناث</td>
                     <td class="number" id="females">--</td>
+                    <td>عدد الإناث</td>
                 </tr>
                 <tr>
-                    <td>عدد المقابلات</td>
                     <td class="number" id="interviews">--</td>
+                    <td>عدد المقابلات</td>
                 </tr>
             </table>
+        </div>
+
+        <!-- شريط متحرك لعرض الأرقام -->
+        <div class="ticker">
+            <div class="ticker-content">
+                المؤسسات: 30 | الزوار: 59 | الذكور: 10 | الإناث: 49 | المقابلات: 224
+            </div>
         </div>
 
         <script>
