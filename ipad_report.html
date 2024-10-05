@@ -14,7 +14,7 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                font-family: Arial, sans-serif; 
+                font-family: Arial, sans-serif;
             }
             .container {
                 position: relative;
@@ -99,9 +99,9 @@
         </div>
 
         <script>
-            // Function to increment numbers gradually
+            // Function to update the number without countdown if end is 0
             function animateValue(id, start, end, duration) {
-                if (end === 0 || isNaN(end)) {
+                if (end === 0) {
                     document.getElementById(id).textContent = '0';
                     return;
                 }
@@ -112,27 +112,14 @@
                 let obj = document.getElementById(id);
                 let timer = setInterval(function() {
                     current += increment;
-                    obj.textContent = current;
-                    if (current === end) {
+                    obj.textContent = current.toString();
+                    if (current == end) {
                         clearInterval(timer);
-                        allFinished();
                     }
                 }, stepTime);
             }
 
-            // Ensure all numbers have finished animating
-            let finishedCounts = 0;
-            function allFinished() {
-                finishedCounts += 1;
-                if (finishedCounts === 5) {
-                    let elements = document.querySelectorAll('.number');
-                    elements.forEach(function(element) {
-                        element.classList.add('finished');
-                    });
-                }
-            }
-
-            // Invoke animateValue for each number with a delay
+            // Invoke animateValue for each number
             setTimeout(function() {
                 animateValue("institutions", 0, 106, 2000); 
             }, 1000);
