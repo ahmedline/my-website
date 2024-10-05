@@ -15,27 +15,27 @@
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
-                background-image: url('https://ahmedline.github.io/my-website/images/Phone.jpg'); /* خلفية ثابتة */
+                background-image: url('https://ahmedline.github.io/my-website/images/Phone.jpg');
                 background-size: cover;
                 background-position: center;
                 background-attachment: fixed;
                 color: black;
                 text-align: center;
-                direction: rtl; /* النص من اليمين إلى اليسار */
+                direction: rtl;
             }
             .container {
                 width: 100%;
-                max-width: 600px; /* توسيع الجدول */
+                max-width: 600px;
                 text-align: center;
                 background: none;
                 margin-top: 10px;
             }
             h1 {
-                font-size: 1.4em; /* تصغير العنوان قليلاً */
+                font-size: 1.4em;
                 color: #0b5871;
                 margin-bottom: 15px;
                 position: relative;
-                top: 10px; /* تحريك العنوان إلى الأسفل قليلاً */
+                top: 10px;
             }
             .clock {
                 font-size: 1.2em;
@@ -65,12 +65,6 @@
             .number {
                 font-size: 1.5em;
                 color: #0b5871;
-                animation: blink 1.5s infinite;
-            }
-            @keyframes blink {
-                0% { opacity: 1; }
-                50% { opacity: 0.5; }
-                100% { opacity: 1; }
             }
             /* شريط متحرك */
             .ticker {
@@ -87,29 +81,27 @@
             }
             .ticker-content {
                 display: inline-block;
-                animation: ticker 180s linear infinite; /* إبطاء الشريط إلى 240 ثانية ليكون النص مقروءًا */
-                direction: ltr; /* الحركة من اليسار إلى اليمين */
-                animation-delay: 0s; /* بداية فورية للشريط */
+                animation: ticker 180s linear infinite;
+                direction: ltr;
             }
             @keyframes ticker {
                 0% {
-                    transform: translateX(20%); /* يبدأ من اليسار */
+                    transform: translateX(20%);
                 }
                 100% {
-                    transform: translateX(100%); /* ينتهي في اليمين */
+                    transform: translateX(100%);
                 }
             }
-            /* تباعد بين الأخبار والإحصائيات */
             .ticker-content span {
-                padding-right: 40px; /* تباعد أكبر بين النصوص */
+                padding-right: 40px;
             }
         </style>
     </head>
     <body>
 
-        <h1> نظام -رصد إثراء- لإدارة الزوار  المتكامل - التقرير المباشر</h1> <!-- العنوان في المنتصف -->
+        <h1> نظام -رصد إثراء- لإدارة الزوار المتكامل - التقرير المباشر</h1>
 
-        <div class="clock" id="clock">--:--:--</div> <!-- الساعة الرقمية -->
+        <div class="clock" id="clock">--:--:--</div>
 
         <div class="container">
             <table>
@@ -119,33 +111,30 @@
                 </tr>
                 <tr>
                     <td> إجمالي المؤسسات المشاركة</td>
-                    <td class="number" id="institutions">--</td>
+                    <td class="number">106</td>
                 </tr>
                 <tr>
                     <td>إجمالي الزوار</td>
-                    <td class="number" id="visitors">--</td>
+                    <td class="number">1</td>
                 </tr>
                 <tr>
                     <td>إجمالي الذكور</td>
-                    <td class="number" id="males">--</td>
+                    <td class="number">0</td>
                 </tr>
                 <tr>
                     <td>إجمالي الإناث</td>
-                    <td class="number" id="females">--</td>
+                    <td class="number">1</td>
                 </tr>
                 <tr>
                     <td> إجمالي المقابلات </td>
-                    <td class="number" id="interviews">--</td>
+                    <td class="number">1</td>
                 </tr>
             </table>
         </div>
 
-        <!-- شريط متحرك لعرض الأرقام والنصوص المتغيرة -->
         <div class="ticker">
             <div class="ticker-content">
-                <!-- عرض الأخبار أولاً -->
                 <span>🗞️ إستعداد فريق معهد الإمارات المالي لحدث إثراء السادس</span><span>🗞️ ويسعى المعهد لتحقيق هدف استراتيجي للدولة وتحقيق نسبة توطين تصل إلى 45% في القطاع المصرفي و30% في قطاع التأمين فضلاً عن زيادة نسبة التوطين في قطاع شركات الصرافة والتمويل بشكل تدريجي إلى 30% في إطار الجهود الحكومية لتمكين الكوادر الوطنية وزيادة مساهمتها في اقتصاد المستقبل.</span><span>🗞️ وينص برنامج إثراء المالي على أن يتبنى مصرف الإمارات العربية المتحدة المركزي مبادئ تنشئة جيل من الكفاءات الوطنية القادرة على قيادة قطاعات الأعمال في المستقبل من خلال ضمان توفير بيئة عمل مناسبة ومستقرة تساهم في تعزيز تنافسيتهم وإنتاجيتهم</span><span>🗞️ يأتي المعرض ضمن مبادرة “إثراء” الهادفة لدعم توطين القطاع المالي عبر توفير 5000 وظيفة بحلول عام 2026 وتعزيز فرص التوظيف للمواطنين، ورفع نسب التوطين في القطاع المالي في إطار الجهود الحكومية الرامية إلى تعزيز الفرص الوظيفية وتمكين المواطنين من المشاركة بفاعلية في الاقتصاد الوطني وإشراك المزيد من الشباب في رسم معالم اقتصاد المستقبل.</span><span>🗞️ الإنتهاء من الأجندة المقررة في اليوم الأول</span><span>🗞️ فرصة للقاء كبار الشخصيات في القطاع المالي</span><span>🗞️ فرص توظيف واعدة للخريجين الجدد</span>
-                <!-- ثم عرض الأرقام -->
                 <span>المؤسسات المشاركة : 106</span>
                 <span>إجمالي عدد الزائرين : 1</span>
                 <span>بلغ عدد الذكور : 0</span>
@@ -155,30 +144,6 @@
         </div>
 
         <script>
-            // Function to increment numbers gradually
-            function animateValue(id, start, end, duration) {
-                let range = end - start;
-                let current = start;
-                let increment = end > start ? 1 : -1;
-                let stepTime = Math.abs(Math.floor(duration / range));
-                let obj = document.getElementById(id);
-                let timer = setInterval(function() {
-                    current += increment;
-                    obj.textContent = current;
-                    if (current === end) {
-                        clearInterval(timer);
-                    }
-                }, stepTime);
-            }
-
-            // Invoke animateValue for each number
-            animateValue("institutions", 0, 106, 4000); // Increased duration for smooth transition
-            animateValue("visitors", 0, 1, 4000);
-            animateValue("males", 0, 0, 4000);
-            animateValue("females", 0, 1, 4000);
-            animateValue("interviews", 0, 1, 4000);
-
-            // Function to update the clock
             function updateClock() {
                 var now = new Date();
                 var hours = now.getHours().toString().padStart(2, '0');
@@ -186,8 +151,7 @@
                 var seconds = now.getSeconds().toString().padStart(2, '0');
                 document.getElementById('clock').textContent = hours + ':' + minutes + ':' + seconds;
             }
-            setInterval(updateClock, 1000);  // Update the clock every second
-
+            setInterval(updateClock, 1000);
         </script>
     </body>
     </html>
