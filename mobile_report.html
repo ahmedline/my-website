@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>نظام رصد إثراء </title>
+        <title>نظام رصد إثراء</title>
         <style>
             body, html {
                 margin: 0;
@@ -65,6 +65,12 @@
             .number {
                 font-size: 1.5em;
                 color: #0b5871;
+                animation: blink 1.5s infinite;
+            }
+            @keyframes blink {
+                0% { opacity: 1; }
+                50% { opacity: 0.5; }
+                100% { opacity: 1; }
             }
             /* شريط متحرك */
             .ticker {
@@ -111,39 +117,40 @@
                 </tr>
                 <tr>
                     <td> إجمالي المؤسسات المشاركة</td>
-                    <td class="number">106</td>
+                    <td class="number" id="institutions">--</td>
                 </tr>
                 <tr>
                     <td>إجمالي الزوار</td>
-                    <td class="number">2</td>
+                    <td class="number" id="visitors">--</td>
                 </tr>
                 <tr>
                     <td>إجمالي الذكور</td>
-                    <td class="number">1</td>
+                    <td class="number" id="males">--</td>
                 </tr>
                 <tr>
                     <td>إجمالي الإناث</td>
-                    <td class="number">1</td>
+                    <td class="number" id="females">--</td>
                 </tr>
                 <tr>
                     <td> إجمالي المقابلات </td>
-                    <td class="number">1</td>
+                    <td class="number" id="interviews">--</td>
                 </tr>
             </table>
         </div>
 
         <div class="ticker">
             <div class="ticker-content">
-                <span>🗞️ إستعداد فريق معهد الإمارات المالي لحدث إثراء السادس</span><span>🗞️ ويسعى المعهد لتحقيق هدف استراتيجي للدولة وتحقيق نسبة توطين تصل إلى 45% في القطاع المصرفي و30% في قطاع التأمين .</span><span>🗞️ الإنتهاء من الأجندة المقررة في اليوم الأول</span><span>🗞️  إطلاق تطبيق  وفر</span><span>🗞️جلسات وورش عمل تناقش التطورات الجديدة في القطاع المالي</span><span>🗞️فرص توظيف واعدة في معرض إثراء إكسبو الشارقة،  تواجد ممثلي العديد من المؤسسات المالية الكبرى</span><span>🗞️ المعرض يقدم على مدار اليوم جلسات تفاعلية وفرص عمل للخريجين الجدد في قطاعي المال والأعمال</span>
+                <span>🗞️ إستعداد فريق معهد الإمارات المالي لحدث إثراء السادس</span><span>🇦🇪 ويسعى المعهد لتحقيق هدف استراتيجي للدولة وتحقيق نسبة توطين تصل إلى 45% في القطاع المصرفي و30% في قطاع التأمين .</span><span>🗞️ الإنتهاء من الأجندة المقررة في اليوم الأول</span><span>🗞️ إطلاق تطبيق وفر</span><span>🗞️ جلسات وورش عمل تناقش التطورات الجديدة في القطاع المالي</span><span>🗞️ فرص توظيف واعدة في معرض إثراء إكسبو الشارقة</span>
                 <span>المؤسسات المشاركة : 106</span>
                 <span>إجمالي عدد الزائرين : 2</span>
                 <span>بلغ عدد الذكور : 1</span>
                 <span>وعدد الإناث : 1</span>
-                <span>كم تم إجراء : 1 مقابلة مع الزوار </span>
+                <span> تم إجراء : 1 مقابلة مع الزوار </span>
             </div>
         </div>
 
         <script>
+            // Function to update the clock every second
             function updateClock() {
                 var now = new Date();
                 var hours = now.getHours().toString().padStart(2, '0');
@@ -152,6 +159,48 @@
                 document.getElementById('clock').textContent = hours + ':' + minutes + ':' + seconds;
             }
             setInterval(updateClock, 1000);
+
+            // Function to animate numbers gradually
+            function animateValue(id, start, end, duration) {
+                if (end === 0 || isNaN(end)) {
+                    document.getElementById(id).textContent = '0';
+                    return;
+                }
+                let range = end - start;
+                let current = start;
+                let increment = end > start ? 1 : -1;
+                let stepTime = Math.abs(Math.floor(duration / range));
+                let obj = document.getElementById(id);
+                let timer = setInterval(function() {
+                    current += increment;
+                    obj.textContent = current;
+                    if (current === end) {
+                        clearInterval(timer);
+                    }
+                }, stepTime);
+            }
+
+            // Invoke animateValue for each number
+            setTimeout(function() {
+                animateValue("institutions", 0, 106, 2000);
+            }, 1000);
+            setTimeout(function() {
+                animateValue("visitors", 0, 2, 2000);
+            }, 2000);
+            setTimeout(function() {
+                animateValue("males", 0, 1, 2000);
+            }, 3000);
+            setTimeout(function() {
+                animateValue("females", 0, 1, 2000);
+            }, 4000);
+            setTimeout(function() {
+                animateValue("interviews", 0, 1, 2000);
+            }, 5000);
+
+            // Reload the page every 3 minutes (180000 milliseconds)
+            setTimeout(function() {
+                window.location.reload();
+            }, 180000);
         </script>
     </body>
     </html>
