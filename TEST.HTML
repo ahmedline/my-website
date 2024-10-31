@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Graduation Ceremony Attendance Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #1e1e1e;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      text-align: center;
+    }
+
+    /* Background video styling */
+    .background-video-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1;
+    }
+
+    .background-video {
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      filter: brightness(120%); /* جعل الفيديو أكثر سطوعًا */
+    }
+
+    /* Main title with subtle glow effect */
+    h1 {
+      font-size: 3rem;
+      color: #fff;
+      margin-top: 7rem;
+      animation: glowText 3s infinite;
+      text-shadow: 0 0 10px #d4af37, 0 0 20px #d4af37;
+    }
+
+    @keyframes glowText {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.95; } /* وميض خفيف جدًا */
+    }
+
+    /* Category title */
+    h2 {
+      color: #ffdd57;
+      margin-top: 2rem;
+      font-size: 2rem;
+      position: relative;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: slideIn 1s forwards;
+    }
+
+    /* Total number display */
+    .category-total {
+      font-size: 2.5rem;
+      color: #ffdd57;
+      margin: 1rem 0;
+      opacity: 0;
+      transform: scale(0.5);
+      animation: zoomIn 1s forwards;
+    }
+
+    @keyframes zoomIn {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* Table styling */
+    .table-container {
+      opacity: 0;
+      transform: translateY(20px);
+      width: 75%;
+      margin: 1rem auto;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 10px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    .table-container.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    table {
+      width: 100%;
+      color: #d4af37;
+      border-collapse: collapse;
+      font-size: 1.1rem;
+    }
+
+    th, td {
+      padding: 12px;
+      border: 1px solid #444;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    th {
+      background-color: #444;
+      font-size: 1.2rem;
+      animation: textGlow 2s infinite;
+      position: relative;
+    }
+
+    /* Add icons to headers */
+    th.total::before {
+      content: "\f0c0";
+      font-family: "Font Awesome 5 Free";
+      font-weight: 900;
+      color: #ffdd57;
+      margin-right: 8px;
+    }
+
+    th.confirmations::before {
+      content: "\f14a";
+      font-family: "Font Awesome 5 Free";
+      font-weight: 900;
+      color: #ffdd57;
+      margin-right: 8px;
+    }
+
+    /* Header glow effect */
+    @keyframes textGlow {
+      0%, 100% { text-shadow: 0 0 5px #ffdd57, 0 0 10px #d4af37; }
+      50% { text-shadow: 0 0 15px #ffaa33, 0 0 20px #ffdd57; }
+    }
+
+    /* Number glow and hover effect */
+    .number {
+      font-size: 1.2rem;
+      color: #ffdd57;
+      text-shadow: 0 0 5px #ffcc88, 0 0 10px #ffaa33;
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+
+    .number:hover {
+      transform: scale(1.2);
+      color: #ffffff;
+    }
+
+    /* Table row animation */
+    .table-row {
+      opacity: 0;
+      transform: translateX(-20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .table-row.show {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* News ticker */
+    .ticker {
+      width: 100%;
+      background-color: #333;
+      color: #d4af37;
+      padding: 1rem 0;
+      overflow: hidden;
+      position: fixed;
+      bottom: 0;
+      font-size: 1.1rem;
+    }
+
+    .ticker-content {
+      display: inline-block;
+      white-space: nowrap;
+      animation: ticker 60s linear infinite; /* جعل الشريط أبطأ */
+    }
+
+    @keyframes ticker {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+
+    /* News icon styling */
+    .news-icon {
+      margin-right: 8px;
+      color: #ffdd57;
+    }
+
+    /* Slide-in animation */
+    @keyframes slideIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background video -->
+  <div class="background-video-container">
+    <video autoplay muted loop playsinline class="background-video">
+      <source src="https://ahmedline.github.io/my-website/PC_Monitors.webm" type="video/webm">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+
+  <!-- Main Content -->
+  <div class="content">
+    <h1>Graduation Ceremony Attendance Dashboard</h1>
+
+    <!-- Graduate Category -->
+    <h2 style="animation-delay: 1s;">Graduate Category (On Stage)</h2>
+    <div class="category-total" id="graduateTotal" style="animation-delay: 2s;">Total Participants: 1668</div>
+    <div class="table-container" id="graduateTableContainer" style="animation-delay: 3s;">
+      <table id="graduateTable">
+        <tr class="table-row"><th>Category</th><th class="total">Total Participants</th><th class="confirmations">Confirmations</th></tr>
+        <tr class="table-row"><td><i class="fas fa-star"></i> Ethraa cohort 2</td><td class="number">965</td><td class="number">0</td></tr>
+        <tr class="table-row"><td>Future tech cohort 2</td><td class="number">85</td><td class="number">0</td></tr>
+        <tr class="table-row"><td>Thrive program 2 & 3</td><td class="number">35</td><td class="number">0</td></tr>
+        <tr class="table-row"><td>Sustainable Finance</td><td class="number">22</td><td class="number">0</td></tr>
+        <tr class="table-row"><td>HR leader in AI</td><td class="number">14</td><td class="number">0</td></tr>
+        <tr class="table-row"><td>Academic Graduate</td><td class="number">50</td><td class="number">0</td></tr>
+        <tr class="table-row"><td>Exchange Program</td><td class="number">400</td><td class="number">0</td></tr>
+        <tr class="table-row"><td>CBUAE graduate</td><td class="number">15</td><td class="number">0</td></tr>
+        <tr class="table-row"><td>LDP Oxford</td><td class="number">59</td><td class="number">0</td></tr>
+        <tr class="table-row"><td>Women leadership</td><td class="number">23</td><td class="number">0</td></tr>
+      </table>
+    </div>
+
+    <!-- Backstage Category -->
+    <h2 style="animation-delay: 5s;">Backstage Category</h2>
+    <div class="category-total" id="backstageTotal" style="animation-delay: 6s;">Total Participants: 4644</div>
+    <div class="table-container" id="backstageTableContainer" style="animation-delay: 7s;">
+      <table id="backstageTable">
+        <tr class="table-row"><th>Category</th><th class="total">Total Participants</th><th class="confirmations">Confirmations</th></tr>
+        <tr class="table-row"><td>Ethraa cohort 3</td><td class="number">1000</td><td class="number">0</td></tr>
+        <tr class="table-row"><td>Graduate Families (2 per each)</td><td class="number">1930</td><td class="number">0</td></tr>
+        <tr class="table-row"><td>Emirati Empowerment</td><td class="number">600</td><td class="number">0</td></tr>
+        <tr class="table-row"><td>EIF Staff</td><td class="number">64</td><td class="number">0</td></tr>
+        <tr class="table-row"><td>CBUAE staff</td><td class="number">500</td><td class="number">0</td></tr>
+        <tr class="table-row"><td>Private program</td><td class="number">200</td><td class="number">0</td></tr>
+        <tr class="table-row"><td>L&D and Emiratization</td><td class="number">350</td><td class="number">0</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- News Ticker -->
+  <div class="ticker">
+    <div class="ticker-content" id="newsTicker"></div>
+  </div>
+
+  <script>
+    // Delay display of main content and tables with build effect
+    document.addEventListener('DOMContentLoaded', () => {
+      // Show Graduate Table
+      setTimeout(() => {
+        document.getElementById('graduateTableContainer').classList.add('show');
+        document.querySelectorAll("#graduateTable .table-row").forEach((row, index) => {
+          row.style.transitionDelay = `${(index + 1) * 0.1}s`;
+          row.classList.add("show");
+        });
+      }, 3000);
+
+      // Show Backstage Table
+      setTimeout(() => {
+        document.getElementById('backstageTableContainer').classList.add('show');
+        document.querySelectorAll("#backstageTable .table-row").forEach((row, index) => {
+          row.style.transitionDelay = `${(index + 1) * 0.1}s`;
+          row.classList.add("show");
+        });
+      }, 7000);
+    });
+
+    // News Ticker content with icons
+    const newsItems = [
+      "Ethraa cohort 2: 965 total",
+      "Future tech cohort 2: 85 total",
+      "Thrive program 2 & 3: 35 total",
+      "Sustainable Finance: 22 total",
+      "HR leader in AI: 14 total",
+      "Academic Graduate: 50 total",
+      "Exchange Program: 400 total",
+      "CBUAE graduate: 15 total",
+      "LDP Oxford: 59 total",
+      "Women leadership: 23 total",
+      "Ethraa cohort 3: 1000 total",
+      "Graduate Families: 1930 total",
+      "Emirati Empowerment: 600 total",
+      "EIF Staff: 64 total",
+      "CBUAE staff: 500 total",
+      "Private program: 200 total",
+      "L&D and Emiratization: 350 total"
+    ];
+
+    const tickerContent = newsItems.map(item => `<i class="fas fa-newspaper news-icon"></i>${item}`).join(' | ');
+    document.getElementById("newsTicker").innerHTML = tickerContent;
+  </script>
+
+</body>
+</html>
